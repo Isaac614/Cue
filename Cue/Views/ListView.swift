@@ -8,24 +8,29 @@
 import SwiftUI
 
 struct ListView: View {
-    @State var items: [String] = [
-        "item1",
-        "item2",
-        "item3"
-    ]
+    let viewModel = CalendarViewModel(icsURL: nil)
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach (items, id: \.self) { item in
+                ForEach(viewModel.classes) { classObject in
                     NavigationLink {
-                        ClassView(events: ["event1", "event2", "event3"])
+                        ClassView(classObject: classObject)
                     } label: {
-                        Text(item)
+                        Text(classObject.name ?? "Unnamed Class")
                     }
                 }
             }
             .navigationTitle("Classes")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink {
+                        InputView(viewModel: viewModel)
+                    } label: {
+                        Text("Update")
+                    }
+                }
+            }
         }
     }
 }

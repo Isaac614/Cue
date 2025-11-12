@@ -8,23 +8,35 @@
 import SwiftUI
 
 struct ClassView: View {
-    @State var events: [String]
-    
-    @State var isComplete: Bool = true
+    let classObject: Class
     var body: some View {
-        List {
-            ForEach (events, id: \.self) { event in
-                NavigationLink {
-                    EventDetailsView(eventName: event, isComplete: false, description: "lorem ipsum dolor", dueDate: Date())
-                } label: {
-                    EventListView(isComplete: false, eventName: event)
+        VStack {
+            List {
+                ForEach (classObject.assignments) { assignment in
+                    NavigationLink {
+                        AssignmentDetailsView(
+                            assignment: assignment,
+                            className:classObject.name)
+                    } label: {
+                        AssignmentListView(assignment: assignment)
+                    }
                 }
             }
+            .navigationTitle(classObject.name ?? "unnamed class")
         }
-        .navigationTitle("Assignments")
     }
 }
 
 #Preview {
-    ClassView(events: ["event1", "event2", "event3"])
+    let classObj = Class(name: "Swift Dev", assignments: [
+        Assignment(
+            name: "some assignment",
+            desc: "lorem ipsum dolor",
+            dueDate: Date()),
+        Assignment(
+            name: "some assignment",
+            desc: "lorem ipsum dolor",
+            dueDate: Date())
+    ])
+    ClassView(classObject: classObj)
 }
