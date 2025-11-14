@@ -9,25 +9,41 @@ import SwiftUI
 
 struct ListView: View {
     let viewModel = CalendarViewModel(icsURL: nil)
+    @State private var selectedClass: Class? = nil
+    @State private var pendingClass: Class? = nil
     
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(viewModel.classes) { classObject in
-                    NavigationLink {
-                        ClassView(classObject: classObject)
-                    } label: {
-                        Text(classObject.name ?? "Unnamed Class")
+            ScrollView {
+                LazyVStack(spacing: 16) {
+                    ForEach(viewModel.classes) { classObject in
+                        Button {
+                            pendingClass = classObject
+                            // Delay navigation to let animation play
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                selectedClass = pendingClass
+                                pendingClass = nil
+                            }
+                        } label: {
+                            ClassListView(
+                                className: classObject.name ?? "Unnamed Class",
+                                isPressed: pendingClass?.id == classObject.id
+                            )
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
+                .padding()
             }
+            .background(.white)
             .navigationTitle("Classes")
+            .navigationDestination(item: $selectedClass) { classObject in
+                ClassView(classObject: classObject)
+            }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink {
+                    NavigationLink("Update") {
                         InputView(viewModel: viewModel)
-                    } label: {
-                        Text("Update")
                     }
                 }
             }

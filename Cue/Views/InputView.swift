@@ -37,8 +37,7 @@ struct InputView: View {
                         .foregroundStyle(.black)
                 }
             )
-            .buttonStyle(.glass(.regular.tint(Color(red: 0.5, green: 0.6, blue: 1))))
-            .tint(Color.green)
+            .buttonStyle(.glass(.regular))//.tint(Color(red: 0.5, green: 0.6, blue: 1))))
         }
         .padding()
     }
