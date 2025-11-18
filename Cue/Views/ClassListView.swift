@@ -9,8 +9,16 @@ import SwiftUI
 
 struct ClassListView: View {
     let classObject: Class
-//    let className: String
     var isPressed: Bool = false
+    var classColor: Color {
+        guard let r = classObject.red,
+              let g = classObject.green,
+              let b = classObject.blue else {
+            return Color(.black)
+        }
+        
+        return Color(red: r, green: g, blue: b)
+    }
 
     var body: some View {
         HStack {
@@ -25,16 +33,8 @@ struct ClassListView: View {
         .frame(maxWidth: .infinity)
         .glassEffect(.regular.interactive())
         .contentShape(Capsule())
-        .foregroundStyle(Color(
-                red: classObject.red,
-                green: classObject.green,
-                blue: classObject.blue
-            )
+        .foregroundStyle(
+            classColor
         )
     }
 }
-
-
-//#Preview {
-//    ClassListView(className: "Math 108X")
-//}

@@ -1,29 +1,25 @@
-//
-//  ClassView.swift
-//  Cue
-//
-//  Created by Isaac Moore on 11/10/25.
-//
-
-
-
 import SwiftUI
 
 struct ClassView: View {
     let classObject: Class
     
-    var baseColor: Color {
-        Color(
-            red: classObject.red,
-            green: classObject.green,
-            blue: classObject.blue,
-            opacity: classObject.opacity
-        )
+    var classColor: Color {
+        guard let r = classObject.red,
+              let g = classObject.green,
+              let b = classObject.blue else {
+            return Color(.black)
+        }
+        
+        return Color(red: r, green: g, blue: b)
     }
     
-    var gradientColors: [Color] {
-        [baseColor.darker(by: 0), baseColor.lighter(by: 0.3)]
-    }
+//    var gradientColors: [Color] {
+//        guard let base = classColor else {
+//            return [Color(.pink).darker(by: 0), Color(.pink).lighter(by: 0.3)]
+//        }
+//        
+//        return [base.darker(by: 0), base.lighter(by: 0.3)]
+//    }
     
     var body: some View {
         ScrollView {
@@ -34,17 +30,17 @@ struct ClassView: View {
                             assignment: assignment,
                             className: classObject.name ?? "Unnamed Class")
                     } label: {
-                        AssignmentListView(assignment: assignment, classColor: baseColor)
+                        AssignmentListView(assignment: assignment, classColor: classColor)
                     }
                 }
             }
             .padding()
         }
-        .background(LinearGradient(
-            colors: gradientColors,
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        ))
+//        .background(LinearGradient(
+//            colors: gradientColors,
+//            startPoint: .topLeading,
+//            endPoint: .bottomTrailing
+//        ))
         .navigationTitle(classObject.name ?? "Assignments")
     }
 }
@@ -74,57 +70,6 @@ extension Color {
     }
 }
 
-//import SwiftUI
-//
-//struct ClassView: View {
-//    let classObject: Class
-//    @State private var selectedAssignment: Assignment? = nil
-//    @State private var pendingAssignment: Assignment? = nil
-//    
-//    var classColor: Color {
-//            Color(
-//                red: classObject.red,
-//                green: classObject.green,
-//                blue: classObject.blue,
-//                opacity: classObject.opacity
-//            )
-//        }
-//    
-//    var body: some View {
-//        ScrollView {
-//            LazyVStack(spacing: 16) {
-//                ForEach(classObject.assignments) { assignment in
-//                    Button {
-//                        pendingAssignment = assignment
-//                        selectedAssignment = pendingAssignment
-//                        pendingAssignment = nil
-//                    } label: {
-//                        AssignmentListView(assignment: assignment, classColor: classColor)
-//                    }
-//                    .buttonStyle(.plain)
-//                }
-//            }
-//            .padding()
-//        }
-//        .background(.white)
-////        .background(LinearGradient(
-////            colors: [
-////                Color(red: classObject.red, green: classObject.green, blue: classObject.blue),
-////                Color(red: 1.0, green: 1, blue: 1)
-////            ],
-////            startPoint: .topLeading,
-////            endPoint: .bottomTrailing
-////        ))
-//        .navigationTitle(classObject.name ?? "Assignments")
-//        .navigationDestination(item: $selectedAssignment) { assignment in
-//            AssignmentDetailsView(
-//                assignment: assignment,
-//                className: classObject.name ?? "Unnamed Class"
-//            )
-//        }
-//    }
-//}
-
 #Preview {
     let classObj = Class(
         name: "Swift Dev",
@@ -139,7 +84,6 @@ extension Color {
                 dueDate: Date())
         ],
         color: Color(red: 0, green: 0, blue: 0.5)
-//        color: Color(red: 1, green: 0.75, blue: 0.8)
     )
     ClassView(classObject: classObj)
 }

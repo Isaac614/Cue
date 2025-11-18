@@ -1,10 +1,3 @@
-//
-//  Class.swift
-//  Cue
-//
-//  Created by Isaac Moore on 11/11/25.
-//
-
 import Foundation
 import SwiftData
 import SwiftUI
@@ -18,11 +11,11 @@ import AppKit
 @Model
 final class Class: Hashable {
     var name: String?
-    var assignments: [Assignment]
-    var red: Double
-    var blue: Double
-    var green: Double
-    var opacity: Double
+    @Relationship(deleteRule: .cascade) var assignments: [Assignment]
+    var red: Double?
+    var blue: Double?
+    var green: Double?
+    var opacity: Double?
     
     init(name: String?, assignments: [Assignment] = [], color: Color? = nil) {
         self.name = name

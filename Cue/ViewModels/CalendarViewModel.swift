@@ -1,16 +1,10 @@
-//
-//  CalendarViewModel.swift
-//  Cue
-//
-//  Created by Isaac Moore on 11/11/25.
-//
-
-
 import Foundation
 import iCalendarParser
 import SwiftUI
+import SwiftData
 
 
+@MainActor
 @Observable
 class CalendarViewModel {
     var classes: [Class] = []
@@ -24,7 +18,7 @@ class CalendarViewModel {
     }
     
     
-    func fetchCalendarData() async {
+    func fetchCalendarData(context: ModelContext) async {
         isLoading = true
         errorMessage = nil
         
@@ -35,7 +29,7 @@ class CalendarViewModel {
             let (data, _) = try await URLSession.shared.data(from: icsURL)
             if let icsString = String(data: data, encoding: .utf8) {
                 print("Successfully fetched ICS data:")
-                parseRawData(icsString: icsString)
+                parseRawData(icsString: icsString, context: context)
             }
             
         } catch {
@@ -47,7 +41,7 @@ class CalendarViewModel {
         
     }
     
-    private func parseRawData(icsString: String) {
+    private func parseRawData(icsString: String, context: ModelContext) {
         let calParser = ICParser()
         guard let calendar = calParser.calendar(from: icsString) else {
             errorMessage = "Failed to parse calendar data"
@@ -91,14 +85,19 @@ class CalendarViewModel {
                 addClass(Class(name: className))
             }
         }
+        updateContext(context)
+        print(classes.count)
     }
     
     private func addClass(_ classObject: Class) {
         classes.append(classObject)
     }
     
-    private func saveToSwiftData() {
-        
+    private func updateContext(_ context: ModelContext) {
+        for classObj: Class in classes {
+            context.insert(classObj)
+            try? context.save()
+        }
     }
     
     private func clearSwiftData() {

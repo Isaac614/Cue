@@ -9,8 +9,12 @@ import SwiftUI
 
 struct InputView: View {
     @State private var icsLink: String = "https://byui.instructure.com/feeds/calendars/user_MW9zKHiVd9h9cuWWsZjt5i1zHLRYUrt3wzEo4xjC.ics"
+    
+    
     let viewModel: CalendarViewModel
 
+    @Environment(\.modelContext) var modelContext
+    
     var body: some View {
         VStack(spacing: 12) {
             TextField("Enter your ICS link...", text: $icsLink)
@@ -26,7 +30,7 @@ struct InputView: View {
                 action: {
                     viewModel.icsURL = URL(string: icsLink)
                     Task {
-                        await viewModel.fetchCalendarData()
+                        await viewModel.fetchCalendarData(context: modelContext)
                     }
                 }, label: {
                     Text("Submit")
