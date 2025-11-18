@@ -26,11 +26,9 @@ struct ClassView: View {
             LazyVStack(spacing: 16) {
                 ForEach(classObject.assignments) { assignment in
                     NavigationLink {
-                        AssignmentDetailsView(
-                            assignment: assignment,
-                            className: classObject.name ?? "Unnamed Class")
+                        AssignmentDetailsView(assignment: assignment)
                     } label: {
-                        AssignmentListView(assignment: assignment, classColor: classColor)
+                        AssignmentListView(assignment: assignment)
                     }
                 }
             }
@@ -69,22 +67,22 @@ extension Color {
         )
     }
 }
-
-#Preview {
-    let classObj = Class(
-        name: "Swift Dev",
-        assignments: [
-            Assignment(
-                name: "some assignment",
-                desc: "lorem ipsum dolor",
-                dueDate: Date()),
-            Assignment(
-                name: "some assignment",
-                desc: "lorem ipsum dolor",
-                dueDate: Date())
-        ],
-        color: Color(red: 0, green: 0, blue: 0.5)
-    )
-    ClassView(classObject: classObj)
-}
-
+//
+//#Preview {
+//    let classObj = Class(
+//        name: "Swift Dev",
+//        assignments: [
+//            Assignment(
+//                name: "some assignment",
+//                desc: "lorem ipsum dolor",
+//                dueDate: Date()),
+//            Assignment(
+//                name: "some assignment",
+//                desc: "lorem ipsum dolor",
+//                dueDate: Date())
+//        ],
+//        color: Color(red: 0, green: 0, blue: 0.5)
+//    )
+//    ClassView(classObject: classObj)
+//}
+//

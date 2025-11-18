@@ -17,6 +17,8 @@ final class Class: Hashable {
     var green: Double? = nil
     var opacity: Double? = nil
     
+    
+    
     init(name: String?, assignments: [Assignment] = [], color: Color? = nil) {
         self.name = name
         self.assignments = assignments

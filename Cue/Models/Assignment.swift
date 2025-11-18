@@ -9,6 +9,15 @@ final class Assignment {
     var dueDate: Date?
     var isComplete: Bool
     
+    @Relationship(inverse: \Class.assignments)
+    var parentClass: Class?
+    
+    var red: Double? { parentClass?.red }
+    var green: Double? { parentClass?.green }
+    var blue: Double? { parentClass?.blue }
+    var opacity: Double? { parentClass?.opacity }
+    var className: String? { parentClass?.name }
+    
     
     var formattedDate: String? {
         guard let dueDate = dueDate else { return nil }
@@ -32,10 +41,11 @@ final class Assignment {
     }
 
     
-    init(name: String?, desc: String?, dueDate: Date?, isComplete: Bool = false) {
+    init(name: String?, desc: String?, dueDate: Date?, parentClass: Class, isComplete: Bool = false) {
         self.name = name
         self.desc = desc
         self.dueDate = dueDate
+        self.parentClass = parentClass
         self.isComplete = isComplete
     }
     

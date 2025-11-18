@@ -80,7 +80,7 @@ class CalendarViewModel {
             }
             
             if let foundClass = foundClass {
-                foundClass.addAssignment(Assignment(name: conciseSummary, desc: desc, dueDate: dueDate))
+                foundClass.addAssignment(Assignment(name: conciseSummary, desc: desc, dueDate: dueDate, parentClass:  foundClass))
             } else {
                 addClass(Class(name: className))
             }

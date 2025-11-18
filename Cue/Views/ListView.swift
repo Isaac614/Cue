@@ -47,7 +47,11 @@ struct ListView: View {
                         
                     if dueAssignments.count > 0 {
                         ForEach(dueAssignments) { a in
-                            AssignmentListView(assignment: a)
+                            NavigationLink {
+                                AssignmentDetailsView(assignment: a)
+                            } label: {
+                                AssignmentListView(assignment: a)
+                            }
                         }
                     } else {
                         Text("You're all caught up!")
@@ -115,13 +119,13 @@ let previewContainer: ModelContainer = {
         
         // Add sample data
         let sampleClass1 = Class(name: "Computer Science 101", color: Color(.blue))
-        let assignment1 = Assignment(name: "Homework 1", desc: "Complete chapter 1 exercises", dueDate: Date())
-        let assignment2 = Assignment(name: "Midterm Exam", desc: "Chapters 1-5", dueDate: Date().addingTimeInterval(172800))
+        let assignment1 = Assignment(name: "Homework 1", desc: "Complete chapter 1 exercises", dueDate: Date(), parentClass: sampleClass1)
+        let assignment2 = Assignment(name: "Midterm Exam", desc: "Chapters 1-5", dueDate: Date().addingTimeInterval(172800), parentClass: sampleClass1)
         sampleClass1.addAssignment(assignment1)
         sampleClass1.addAssignment(assignment2)
         
         let sampleClass2 = Class(name: "Math 202")
-        let assignment3 = Assignment(name: "Problem Set 3", desc: "Integration problems", dueDate: Date().addingTimeInterval(259200))
+        let assignment3 = Assignment(name: "Problem Set 3", desc: "Integration problems", dueDate: Date().addingTimeInterval(259200), parentClass: sampleClass2)
         sampleClass2.addAssignment(assignment3)
         
         container.mainContext.insert(sampleClass1)

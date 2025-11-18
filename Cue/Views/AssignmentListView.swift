@@ -4,9 +4,18 @@ struct AssignmentListView: View {
     
     let assignment: Assignment
     
-    @State var classColor: Color?
     var completeColor: Color {
         assignment.isComplete ? Color(.green) : Color(.red)
+    }
+    
+    var classColor: Color? {
+        guard let r = assignment.red,
+              let g = assignment.green,
+              let b = assignment.blue else {
+            return nil
+        }
+        
+        return Color(red: r, green: g, blue: b)
     }
     
     
@@ -51,10 +60,11 @@ struct AssignmentListView: View {
     }
 }
 
-#Preview {
-    AssignmentListView(assignment: Assignment(
-        name: "some assignment",
-        desc: "lorem ipsum dolor",
-        dueDate: Date())
-    )
-}
+//
+//#Preview {
+//    AssignmentListView(assignment: Assignment(
+//        name: "some assignment",
+//        desc: "lorem ipsum dolor",
+//        dueDate: Date())
+//    )
+//}

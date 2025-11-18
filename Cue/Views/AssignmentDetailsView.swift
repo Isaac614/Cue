@@ -10,7 +10,7 @@ import Foundation
 
 struct AssignmentDetailsView: View {
     let assignment: Assignment
-    let className: String?
+    var className: String? { assignment.name ?? "Unnamed Class" }
     
     var completionStatus: String?  {
         guard let dueDate = assignment.dueDate else { return nil } 
@@ -149,12 +149,12 @@ struct AssignmentDetailsView: View {
     }
 }
 
-#Preview {
-    AssignmentDetailsView (
-        assignment: Assignment(
-            name: "10A Class Activity Trend Lines Practice",
-            desc: "Download the class activity template:  Lesson 10A Trendlines Practice Class ActivityDownload Lesson 10A Trendlines Practice Class Activity\n\nOnce you have completed the class activity, please upload your completed assignment to this Dropbox by the deadline.",
-            dueDate: Date(), isComplete: false),
-        className: "Math"
-    )
-}
+//#Preview {
+//    AssignmentDetailsView (
+//        assignment: Assignment(
+//            name: "10A Class Activity Trend Lines Practice",
+//            desc: "Download the class activity template:  Lesson 10A Trendlines Practice Class ActivityDownload Lesson 10A Trendlines Practice Class Activity\n\nOnce you have completed the class activity, please upload your completed assignment to this Dropbox by the deadline.",
+//            dueDate: Date(), isComplete: false),
+//        className: "Math"
+//    )
+//}
