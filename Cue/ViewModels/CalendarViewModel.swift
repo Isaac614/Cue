@@ -8,6 +8,7 @@
 
 import Foundation
 import iCalendarParser
+import SwiftUI
 
 
 @Observable
@@ -87,16 +88,13 @@ class CalendarViewModel {
             if let foundClass = foundClass {
                 foundClass.addAssignment(Assignment(name: conciseSummary, desc: desc, dueDate: dueDate))
             } else {
-                addClass(className: className ?? "unnamed class")
+                addClass(Class(name: className))
             }
-            
-            
-            
         }
     }
     
-    private func addClass(className: String) {
-        classes.append(Class(name: className))
+    private func addClass(_ classObject: Class) {
+        classes.append(classObject)
     }
     
     private func saveToSwiftData() {

@@ -13,7 +13,7 @@ struct AssignmentDetailsView: View {
     let className: String?
     
     var completionStatus: String?  {
-        guard let dueDate = assignment.dueDate else { return nil }
+        guard let dueDate = assignment.dueDate else { return nil } 
         
         let now = Date()
         return assignment.isComplete ?
@@ -85,7 +85,7 @@ struct AssignmentDetailsView: View {
                         VStack (alignment: .leading, spacing: 10) {
                             Text("Description")
                                 .foregroundStyle(Color(.darkGray))
-                            Text(desc)
+                            Text(desc.replacingOccurrences(of: "\\n", with: "\n"))
                         }
                         .padding()
                         .frame(maxWidth: .infinity, alignment: .leading)
