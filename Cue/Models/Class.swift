@@ -12,19 +12,15 @@ import AppKit
 final class Class: Hashable {
     var name: String?
     @Relationship(deleteRule: .cascade) var assignments: [Assignment]
-    var red: Double?
-    var blue: Double?
-    var green: Double?
-    var opacity: Double?
+    var red: Double? = nil
+    var blue: Double? = nil
+    var green: Double? = nil
+    var opacity: Double? = nil
     
     init(name: String?, assignments: [Assignment] = [], color: Color? = nil) {
         self.name = name
         self.assignments = assignments
         
-        self.red = 0
-        self.green = 0
-        self.blue = 0
-        self.opacity = 1
         
         if let color = color {
             #if canImport(UIKit)

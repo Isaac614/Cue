@@ -3,11 +3,11 @@ import SwiftUI
 struct ClassView: View {
     let classObject: Class
     
-    var classColor: Color {
+    var classColor: Color? {
         guard let r = classObject.red,
               let g = classObject.green,
               let b = classObject.blue else {
-            return Color(.black)
+            return nil
         }
         
         return Color(red: r, green: g, blue: b)

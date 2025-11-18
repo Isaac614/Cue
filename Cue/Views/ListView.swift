@@ -12,10 +12,18 @@ struct ListView: View {
     let viewModel = CalendarViewModel(icsURL: nil)
     @Environment(\.modelContext) var modelContext
     @Query var classes: [Class]
-    
+    var dueAssignments: [Assignment] {
+        classes
+            .flatMap(\.assignments)
+            .filter { a in
+                a.dueDate.map { Calendar.current.isDateInToday($0) } ?? false
+            }
+    }
+
     var body: some View {
         NavigationStack {
             ScrollView {
+                // Classes Section
                 LazyVStack(spacing: 16) {
                     ForEach(classes) { classObject in
                         NavigationLink {
@@ -25,7 +33,29 @@ struct ListView: View {
                         }
                     }
                 }
-                .padding()
+                .padding(.horizontal)
+                Divider()
+                    .padding(.horizontal, 35)
+                    .padding(.vertical, 20)
+                
+                
+                // Due Today Section
+                LazyVStack(spacing: 16) {
+                    Text("Due Today")
+                        .font(.title)
+                        .bold()
+                        
+                    if dueAssignments.count > 0 {
+                        ForEach(dueAssignments) { a in
+                            AssignmentListView(assignment: a)
+                        }
+                    } else {
+                        Text("You're all caught up!")
+                            .font(.default)
+                            .foregroundColor(Color(#colorLiteral(red: 0.370555222, green: 0.3705646992, blue: 0.3705595732, alpha: 1)))
+                    }
+                }
+                .padding(.horizontal)
             }
             .background(.white)
             .navigationTitle("Classes")
@@ -55,6 +85,17 @@ struct ListView: View {
                         })
                 }
             }
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
         }
     }
 }
@@ -74,7 +115,7 @@ let previewContainer: ModelContainer = {
         
         // Add sample data
         let sampleClass1 = Class(name: "Computer Science 101", color: Color(.blue))
-        let assignment1 = Assignment(name: "Homework 1", desc: "Complete chapter 1 exercises", dueDate: Date().addingTimeInterval(86400))
+        let assignment1 = Assignment(name: "Homework 1", desc: "Complete chapter 1 exercises", dueDate: Date())
         let assignment2 = Assignment(name: "Midterm Exam", desc: "Chapters 1-5", dueDate: Date().addingTimeInterval(172800))
         sampleClass1.addAssignment(assignment1)
         sampleClass1.addAssignment(assignment2)

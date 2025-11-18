@@ -1,5 +1,6 @@
 import Foundation
 import SwiftData
+import SwiftUI
 
 @Model
 final class Assignment {
@@ -7,6 +8,7 @@ final class Assignment {
     var desc: String?
     var dueDate: Date?
     var isComplete: Bool
+    
     
     var formattedDate: String? {
         guard let dueDate = dueDate else { return nil }

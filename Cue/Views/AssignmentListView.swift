@@ -3,9 +3,9 @@ import SwiftUI
 struct AssignmentListView: View {
     
     let assignment: Assignment
-    @State var classColor: Color?
     
-    var calculatedColor: Color {
+    @State var classColor: Color?
+    var completeColor: Color {
         assignment.isComplete ? Color(.green) : Color(.red)
     }
     
@@ -17,7 +17,7 @@ struct AssignmentListView: View {
                     assignment.markStatus()
                 }, label: {
                     Image(systemName: assignment.isComplete ? "circle.fill" : "circle")
-                        .foregroundStyle(classColor ?? calculatedColor) // TODO - class.color
+                        .foregroundStyle(classColor ?? completeColor)
                 })
             .buttonStyle(PlainButtonStyle())
             Spacer()
