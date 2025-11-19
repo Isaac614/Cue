@@ -18,9 +18,11 @@ struct AssignmentListView: View {
         return Color(red: r, green: g, blue: b)
     }
     
+    var includeClass: Bool = false
+    
     
     var body: some View {
-        HStack {
+        HStack(spacing: 0) {
             Button(
                 action: {
                     assignment.markStatus()
@@ -33,8 +35,14 @@ struct AssignmentListView: View {
                 .frame(width: 20)
             HStack {
                 VStack(alignment: .leading) {
-                    Text(assignment.name ?? "there is no name for this assignment")
-                        .font(.headline)
+                    if !includeClass {
+                        Text(assignment.name ?? "there is no name for this assignment")
+                            .font(.headline)
+                    } else {
+                        Text("\(assignment.name ?? "there is no name for this assignment") - \(assignment.className ?? "Unnamed Class")")
+                            .font(.headline)
+                        
+                    }
                     if let formattedDate = assignment.formattedDate {
                         Text(formattedDate)
                             .foregroundColor(Color(#colorLiteral(red: 0.370555222, green: 0.3705646992, blue: 0.3705595732, alpha: 1)))

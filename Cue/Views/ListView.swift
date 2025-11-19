@@ -50,7 +50,7 @@ struct ListView: View {
                             NavigationLink {
                                 AssignmentDetailsView(assignment: a)
                             } label: {
-                                AssignmentListView(assignment: a)
+                                AssignmentListView(assignment: a, includeClass: true)
                             }
                         }
                     } else {
