@@ -86,7 +86,7 @@ class CalendarViewModel {
             }
         }
         updateContext(context)
-        print(classes.count)
+        sortAllClassAssignments(context)
     }
     
     private func addClass(_ classObject: Class) {
@@ -100,7 +100,40 @@ class CalendarViewModel {
         }
     }
     
-    private func clearSwiftData() {
+    private func clearSwiftData(_ context: ModelContext) {
+        let classes = try? context.fetch(FetchDescriptor<Class>())
+        classes?.forEach { context.delete($0) }
         
+        try? context.save()
+    }
+    
+    func sortAllClassAssignments(_ context: ModelContext) {
+        // Fetch all classes from the model context
+        let descriptor = FetchDescriptor<Class>()
+        guard let classes = try? context.fetch(descriptor) else { return }
+        
+        // Sort assignments for each class
+        for classObj in classes {
+            classObj.assignments.sort { a, b in
+                // Sort by due date
+                guard let dateA = a.dueDate, let dateB = b.dueDate else {
+                    return false
+                }
+                if dateA != dateB {
+                    return dateA < dateB
+                }
+                
+                // Fallback: sort by name
+                let nameA = a.name ?? ""
+                let nameB = b.name ?? ""
+                return nameA < nameB
+            }
+        }
+        
+        // Save the context
+        try? context.save()
     }
 }
+
+
+

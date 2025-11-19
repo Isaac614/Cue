@@ -12,11 +12,33 @@ struct ListView: View {
     let viewModel = CalendarViewModel(icsURL: nil)
     @Environment(\.modelContext) var modelContext
     @Query var classes: [Class]
+    
     var dueAssignments: [Assignment] {
         classes
             .flatMap(\.assignments)
             .filter { a in
                 a.dueDate.map { Calendar.current.isDateInToday($0) } ?? false
+            }
+            .sorted { a, b in
+                // 1. Sort by class name first
+                let classA = a.className ?? ""
+                let classB = b.className ?? ""
+                if classA != classB {
+                    return classA < classB
+                }
+
+                // 2. If same class, sort by due date
+                guard let dateA = a.dueDate, let dateB = b.dueDate else {
+                    return false
+                }
+                if dateA != dateB {
+                    return dateA < dateB
+                }
+                
+                // 3. If same class and due date, sort alphabetically by name
+                let nameA = a.name ?? ""
+                let nameB = b.name ?? ""
+                return nameA < nameB
             }
     }
 
