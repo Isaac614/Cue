@@ -1,10 +1,3 @@
-//
-//  InputView.swift
-//  Cue
-//
-//  Created by Isaac Moore on 11/12/25.
-//
-
 import SwiftUI
 
 struct InputView: View {

@@ -144,12 +144,6 @@ class CalendarViewModel {
         // Save the context
         try? context.save()
     }
-    
-    
-    
-    
-    
-    
 }
 
 

@@ -1,10 +1,3 @@
-//
-//  EventDetailView.swift
-//  Cue
-//
-//  Created by Isaac Moore on 11/11/25.
-//
-
 import SwiftUI
 import Foundation
 

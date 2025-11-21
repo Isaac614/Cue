@@ -1,10 +1,3 @@
-//
-//  ClassListView.swift
-//  Cue
-//
-//  Created by Isaac Moore on 11/13/25.
-//
-
 import SwiftUI
 
 struct ClassListView: View {
