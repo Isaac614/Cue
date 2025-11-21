@@ -85,9 +85,12 @@ class CalendarViewModel {
             }
             
             if let foundClass = foundClass {
-                foundClass.addAssignment(Assignment(name: conciseSummary, desc: desc, dueDate: dueDate, parentClass:  foundClass))
+                foundClass.addAssignment(Assignment(name: conciseSummary, desc: desc, dueDate: dueDate, parentClass: foundClass))
             } else {
-                addClass(Class(originalName: className))
+                let newClass = Class(originalName: className)
+                addClass(newClass)
+                newClass.addAssignment(Assignment(name: conciseSummary, desc: desc, dueDate: dueDate, parentClass: newClass))
+                
             }
         }
     }
@@ -97,13 +100,15 @@ class CalendarViewModel {
     }
     
     private func updateContext(_ context: ModelContext) async {
+        await clearSwiftData(context)
         for classObj: Class in classes {
             context.insert(classObj)
             try? context.save()
         }
     }
     
-    private func clearSwiftData(_ context: ModelContext) {
+    private func clearSwiftData(_ context: ModelContext) async {
+        
         let classes = try? context.fetch(FetchDescriptor<Class>())
         classes?.forEach { context.delete($0) }
         
