@@ -19,6 +19,7 @@ class CalendarViewModel {
     
     func updateCalendar(context: ModelContext) async {
         guard let icsString = await fetchCalendarData(context: context) else { return }
+        await clearSwiftData(context)
         await parseRawData(icsString: icsString, context: context)
         await updateContext(context)
         await sortAllClassAssignments(context)
@@ -100,14 +101,16 @@ class CalendarViewModel {
     }
     
     private func updateContext(_ context: ModelContext) async {
-        await clearSwiftData(context)
-        for classObj: Class in classes {
+        // Now insert newly parsed objects
+        for classObj in classes {
             context.insert(classObj)
-            try? context.save()
         }
+        
+        try? context.save()
     }
     
     private func clearSwiftData(_ context: ModelContext) async {
+        classes.removeAll()
         
         let classes = try? context.fetch(FetchDescriptor<Class>())
         classes?.forEach { context.delete($0) }
@@ -141,6 +144,12 @@ class CalendarViewModel {
         // Save the context
         try? context.save()
     }
+    
+    
+    
+    
+    
+    
 }
 
 
