@@ -17,31 +17,36 @@ class CalendarViewModel {
         self.icsURL = icsURL
     }
     
+    func updateCalendar(context: ModelContext) async {
+        guard let icsString = await fetchCalendarData(context: context) else { return }
+        await parseRawData(icsString: icsString, context: context)
+        await updateContext(context)
+        await sortAllClassAssignments(context)
+        
+    }
     
-    func fetchCalendarData(context: ModelContext) async {
+    
+    private func fetchCalendarData(context: ModelContext) async -> String? {
         isLoading = true
         errorMessage = nil
         
         guard let icsURL = self.icsURL else {
-            return
+            return nil
         }
         do {
             let (data, _) = try await URLSession.shared.data(from: icsURL)
             if let icsString = String(data: data, encoding: .utf8) {
                 print("Successfully fetched ICS data:")
-                parseRawData(icsString: icsString, context: context)
+                return(icsString)
             }
+            return nil
             
         } catch {
-            errorMessage = "Failed to fetch calendar: \(error.localizedDescription)"
-            print("Error: \(error)")
+            return nil
         }
-        
-        isLoading = false
-        
     }
     
-    private func parseRawData(icsString: String, context: ModelContext) {
+    private func parseRawData(icsString: String, context: ModelContext) async {
         let calParser = ICParser()
         guard let calendar = calParser.calendar(from: icsString) else {
             errorMessage = "Failed to parse calendar data"
@@ -85,15 +90,13 @@ class CalendarViewModel {
                 addClass(Class(name: className))
             }
         }
-        updateContext(context)
-        sortAllClassAssignments(context)
     }
     
     private func addClass(_ classObject: Class) {
         classes.append(classObject)
     }
     
-    private func updateContext(_ context: ModelContext) {
+    private func updateContext(_ context: ModelContext) async {
         for classObj: Class in classes {
             context.insert(classObj)
             try? context.save()
@@ -107,7 +110,7 @@ class CalendarViewModel {
         try? context.save()
     }
     
-    func sortAllClassAssignments(_ context: ModelContext) {
+    func sortAllClassAssignments(_ context: ModelContext) async {
         // Fetch all classes from the model context
         let descriptor = FetchDescriptor<Class>()
         guard let classes = try? context.fetch(descriptor) else { return }

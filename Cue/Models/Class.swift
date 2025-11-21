@@ -11,6 +11,7 @@ import AppKit
 @Model
 final class Class: Hashable {
     var name: String?
+    
     @Relationship(deleteRule: .cascade) var assignments: [Assignment]
     var red: Double? = nil
     var blue: Double? = nil

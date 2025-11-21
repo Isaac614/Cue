@@ -86,7 +86,7 @@ struct ListView: View {
                     action: {
                         viewModel.icsURL = URL(string: "https://byui.instructure.com/feeds/calendars/user_MW9zKHiVd9h9cuWWsZjt5i1zHLRYUrt3wzEo4xjC.ics")
                         Task {
-                            await viewModel.fetchCalendarData(context: modelContext)
+                            await viewModel.updateCalendar(context: modelContext)
                         }
                     }, label: {
                         Image(systemName: "arrow.clockwise")

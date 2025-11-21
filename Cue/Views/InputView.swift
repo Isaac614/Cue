@@ -30,7 +30,7 @@ struct InputView: View {
                 action: {
                     viewModel.icsURL = URL(string: icsLink)
                     Task {
-                        await viewModel.fetchCalendarData(context: modelContext)
+                        await viewModel.updateCalendar(context: modelContext)
                     }
                 }, label: {
                     Text("Submit")
