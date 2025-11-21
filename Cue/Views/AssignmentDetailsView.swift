@@ -21,24 +21,53 @@ struct AssignmentDetailsView: View {
         (now <= dueDate ? "Not Complete" : "Overdue")
     }
     
-    let softRedGradient = LinearGradient(
-        colors: [
-            Color(red: 0.90, green: 0.5, blue: 0.5),
-            Color(red: 1.0, green: 0.65, blue: 0.7)
-        ],
-        startPoint: .topLeading,
-        endPoint: .bottomTrailing
-    )
+    @Environment(\.colorScheme) var colorScheme
+    var softRedGradient: LinearGradient {
+        if colorScheme == .dark {
+            LinearGradient(
+                colors: [
+                    Color(red: 0.5, green: 0.2, blue: 0.2),
+                    Color(red: 0.55, green: 0.25, blue: 0.3)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        } else {
+            LinearGradient (
+                colors: [
+                    Color(red: 0.90, green: 0.5, blue: 0.5),
+                    Color(red: 1.0, green: 0.65, blue: 0.7)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        }
+    }
     
-    // Soft green/blue gradient
-    let softGreenGradient = LinearGradient(
-        colors: [
-            Color(red: 0.6, green: 1, blue: 0.6),
-            Color(red: 0.5, green: 1.0, blue: 0.8)
-        ],
-        startPoint: .topLeading,
-        endPoint: .bottomTrailing
-    )
+    
+    var softGreenGradient: LinearGradient {
+        if colorScheme == .dark {
+            // Dark mode version - deeper, more muted
+            return LinearGradient(
+                colors: [
+                        Color(red: 0.5, green: 0.5, blue: 0.5),
+                        Color(red: 0.4, green: 0.4, blue: 0.4)
+                    ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        } else {
+            // Light mode version - your original
+            return LinearGradient(
+                colors: [
+                    Color(red: 0.6, green: 1, blue: 0.6),
+                    Color(red: 0.5, green: 1.0, blue: 0.8)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        }
+    }
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -60,12 +89,13 @@ struct AssignmentDetailsView: View {
                                 .offset(y: -16)
                                 .padding(.bottom, -16)
                                 .padding(.vertical, 5)
+                                .foregroundStyle(Color("TextColor"))
                         }
                         
                         
                         if let formattedDate = assignment.formattedDate {
                             Text("Due Date")
-                                .foregroundStyle(Color(.darkGray))
+                                .foregroundStyle(Color("SubheadlineColor"))
                                 .padding(.bottom, 2)
                             Text(formattedDate)
                         }
@@ -74,7 +104,7 @@ struct AssignmentDetailsView: View {
                     .frame(
                         maxWidth: .infinity,
                         alignment: .leading)
-                    .background(Color(.systemBackground))
+                    .background(Color("CardColor"))
                     .cornerRadius(12)
                     .shadow(
                         color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
@@ -84,12 +114,12 @@ struct AssignmentDetailsView: View {
                     if let desc = assignment.desc {
                         VStack (alignment: .leading, spacing: 10) {
                             Text("Description")
-                                .foregroundStyle(Color(.darkGray))
+                                .foregroundStyle(Color("SubheadlineColor"))
                             Text(desc.replacingOccurrences(of: "\\n", with: "\n"))
                         }
                         .padding()
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(Color(.systemBackground))
+                        .background(Color("CardColor"))
                         .cornerRadius(12)
                         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                         .padding(.bottom)
@@ -105,17 +135,17 @@ struct AssignmentDetailsView: View {
                 Spacer()
                 LinearGradient(
                     colors: [
-                        Color(.systemBackground).opacity(0.2),
-                        Color(.systemBackground).opacity(1),
-                        Color(.systemBackground)
+                        Color("BackgroundColor").opacity(0.01),
+                        Color("BackgroundColor").opacity(1),
+                        Color("BackgroundColor")
                     ],
                     startPoint: .top,
                     endPoint: .bottom
                 )
                 .frame(height: 200)
                 .allowsHitTesting(false) // Allow taps to pass through
-                .offset(y: 40)
             }
+            .ignoresSafeArea(edges: .bottom) // This makes it hug the bottom edge
             
             // Button at bottom
             VStack {
@@ -135,12 +165,14 @@ struct AssignmentDetailsView: View {
                                     .fill(softGreenGradient))
                             .font(.title3)
                             .bold()
-                            .foregroundStyle(Color.black)
+                            .foregroundStyle(Color("TextColor"))
                     })
                 .padding(.horizontal, 23)
-                .padding(.bottom, -10)
+                .padding(.bottom, 15)
             }
         }
+        .navigationTitle(assignment.className ?? "")
+        .background(Color("BackgroundColor"))
         .fontDesign(.rounded)
         .frame(
             maxWidth: .infinity,

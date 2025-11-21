@@ -36,7 +36,7 @@ import SwiftData
 struct CueApp: App {
     var body: some Scene {
         WindowGroup {
-            ListView()
+            ContentView()
         }
         .modelContainer(for: Class.self)
     }

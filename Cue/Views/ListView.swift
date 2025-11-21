@@ -1,15 +1,8 @@
-//
-//  ListView.swift
-//  Cue
-//
-//  Created by Isaac Moore on 11/10/25.
-//
-
 import SwiftUI
 import SwiftData
 
 struct ListView: View {
-    let viewModel = CalendarViewModel(icsURL: nil)
+    let viewModel: CalendarViewModel
     @Environment(\.modelContext) var modelContext
     @Query var classes: [Class]
     
@@ -83,6 +76,8 @@ struct ListView: View {
                 }
                 .padding(.horizontal)
             }
+            .background(Color("BackgroundColor"))
+            .foregroundStyle(Color("TextColor"))
             .background(.white)
             .navigationTitle("Classes")
             .toolbar {
@@ -111,23 +106,12 @@ struct ListView: View {
                         })
                 }
             }
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
         }
     }
 }
 
 #Preview {
-    ListView()
+    ListView(viewModel: CalendarViewModel(icsURL: URL(string: "https://byui.instructure.com/feeds/calendars/user_MW9zKHiVd9h9cuWWsZjt5i1zHLRYUrt3wzEo4xjC.ics")))
         .modelContainer(previewContainer)
 }
 
@@ -141,7 +125,7 @@ let previewContainer: ModelContainer = {
         
         // Add sample data
         let sampleClass1 = Class(name: "Computer Science 101", color: Color(.blue))
-        let assignment1 = Assignment(name: "Homework 1", desc: "Complete chapter 1 exercises", dueDate: Date(), parentClass: sampleClass1)
+        let assignment1 = Assignment(name: "Homework 1", desc: "Complete chapter 1 exercises dsflk sflksaj fslkfhs kfskfskfskksf skd fsk fsk", dueDate: Date(), parentClass: sampleClass1)
         let assignment2 = Assignment(name: "Midterm Exam", desc: "Chapters 1-5", dueDate: Date().addingTimeInterval(172800), parentClass: sampleClass1)
         sampleClass1.addAssignment(assignment1)
         sampleClass1.addAssignment(assignment2)

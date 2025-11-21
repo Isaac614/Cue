@@ -14,7 +14,7 @@ struct ClassListView: View {
         guard let r = classObject.red,
               let g = classObject.green,
               let b = classObject.blue else {
-            return Color(.black)
+            return Color("TextColor")
         }
         
         return Color(red: r, green: g, blue: b)
@@ -31,7 +31,7 @@ struct ClassListView: View {
         .padding(.horizontal, 30)
         .padding(.vertical, 30)
         .frame(maxWidth: .infinity)
-        .glassEffect(.regular.interactive())
+        .glassEffect(.regular.tint(Color("CapsuleGlassColor")).interactive())
         .contentShape(Capsule())
         .foregroundStyle(
             classColor

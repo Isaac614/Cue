@@ -38,12 +38,14 @@ struct InputView: View {
                         .padding(.horizontal)
                         .padding(.vertical, 20)
                         .frame(maxWidth: .infinity)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Color("TextColor"))
                 }
             )
             .buttonStyle(.glass(.regular))//.tint(Color(red: 0.5, green: 0.6, blue: 1))))
         }
         .padding()
+        .frame(maxHeight: .infinity)
+        .background(Color("BackgroundColor"))
     }
 }
 

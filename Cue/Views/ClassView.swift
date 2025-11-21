@@ -60,12 +60,13 @@ struct ClassView: View {
             }
             .padding()
         }
+        .background(Color("BackgroundColor"))
+        .navigationTitle(classObject.name ?? "Assignments")
 //        .background(LinearGradient(
 //            colors: gradientColors,
 //            startPoint: .topLeading,
 //            endPoint: .bottomTrailing
 //        ))
-        .navigationTitle(classObject.name ?? "Assignments")
     }
 }
 

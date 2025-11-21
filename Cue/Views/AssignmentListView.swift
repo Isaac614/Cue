@@ -28,11 +28,13 @@ struct AssignmentListView: View {
                     assignment.markStatus()
                 }, label: {
                     Image(systemName: assignment.isComplete ? "circle.fill" : "circle")
+                        .resizable()
                         .foregroundStyle(classColor ?? completeColor)
+                        .frame(width: 20, height: 20)
                 })
             .buttonStyle(PlainButtonStyle())
             Spacer()
-                .frame(width: 20)
+                .frame(width: 15)
             HStack {
                 VStack(alignment: .leading) {
                     if !includeClass {
@@ -45,7 +47,7 @@ struct AssignmentListView: View {
                     }
                     if let formattedDate = assignment.formattedDate {
                         Text(formattedDate)
-                            .foregroundColor(Color(#colorLiteral(red: 0.370555222, green: 0.3705646992, blue: 0.3705595732, alpha: 1)))
+                            .foregroundColor(Color("SubheadlineColor"))
                             .font(.subheadline)
                     }
                 }
@@ -57,14 +59,14 @@ struct AssignmentListView: View {
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
-        .glassEffect(.regular)
+        .glassEffect(.regular.tint(Color("CapsuleGlassColor")))
 //        .overlay {
 //            Capsule()
 //                .stroke(classColor ?? Color(.clear), lineWidth: 2) // Match your shape
 //        }
         .contentShape(Capsule())
         .lineLimit(1)
-        .foregroundStyle(Color(.black))
+        .foregroundStyle(Color("TextColor"))
     }
 }
 
