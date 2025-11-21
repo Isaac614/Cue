@@ -5,6 +5,10 @@ struct ClassView: View {
     
     let classObject: Class
     
+    var className: String {
+        classObject.userName ?? classObject.originalName ?? "Unnamed Class"
+    }
+    
     var classColor: Color? {
         guard let r = classObject.red,
               let g = classObject.green,
@@ -61,7 +65,7 @@ struct ClassView: View {
             .padding()
         }
         .background(Color("BackgroundColor"))
-        .navigationTitle(classObject.name ?? "Assignments")
+        .navigationTitle(className)
 //        .background(LinearGradient(
 //            colors: gradientColors,
 //            startPoint: .topLeading,

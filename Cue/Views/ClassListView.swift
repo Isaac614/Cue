@@ -9,7 +9,13 @@ import SwiftUI
 
 struct ClassListView: View {
     let classObject: Class
+    
+    var className:String {
+        classObject.userName ?? classObject.originalName ?? "Unnamed Class"
+    }
+    
     var isPressed: Bool = false
+    
     var classColor: Color {
         guard let r = classObject.red,
               let g = classObject.green,
@@ -22,7 +28,7 @@ struct ClassListView: View {
 
     var body: some View {
         HStack {
-            Text(classObject.name ?? "Unnamed Class")
+            Text(className)
             Spacer()
             Image(systemName: "chevron.right")
         }

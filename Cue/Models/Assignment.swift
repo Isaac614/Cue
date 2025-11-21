@@ -10,13 +10,13 @@ final class Assignment {
     var isComplete: Bool
     
     @Relationship(inverse: \Class.assignments)
-    var parentClass: Class?
+    var parentClass: Class
     
-    var red: Double? { parentClass?.red }
-    var green: Double? { parentClass?.green }
-    var blue: Double? { parentClass?.blue }
-    var opacity: Double? { parentClass?.opacity }
-    var className: String? { parentClass?.name }
+    var red: Double? { parentClass.red }
+    var green: Double? { parentClass.green }
+    var blue: Double? { parentClass.blue }
+    var opacity: Double? { parentClass.opacity }
+    var className: String? { parentClass.userName ?? parentClass.originalName }
     
     
     var formattedDate: String? {

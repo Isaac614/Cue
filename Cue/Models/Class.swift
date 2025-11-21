@@ -10,7 +10,8 @@ import AppKit
 
 @Model
 final class Class: Hashable {
-    var name: String?
+    var originalName: String?
+    var userName: String?
     
     @Relationship(deleteRule: .cascade) var assignments: [Assignment]
     var red: Double? = nil
@@ -20,9 +21,10 @@ final class Class: Hashable {
     
     
     
-    init(name: String?, assignments: [Assignment] = [], color: Color? = nil) {
-        self.name = name
+    init(originalName: String?, assignments: [Assignment] = [], color: Color? = nil, userName: String? = nil) {
+        self.originalName = originalName
         self.assignments = assignments
+        self.userName = userName ?? originalName
         
         
         if let color = color {

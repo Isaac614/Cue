@@ -79,7 +79,7 @@ class CalendarViewModel {
             
             var foundClass: Class?
             for classObject in classes {
-                if classObject.name == className {
+                if classObject.originalName == className {
                     foundClass = classObject
                 }
             }
@@ -87,7 +87,7 @@ class CalendarViewModel {
             if let foundClass = foundClass {
                 foundClass.addAssignment(Assignment(name: conciseSummary, desc: desc, dueDate: dueDate, parentClass:  foundClass))
             } else {
-                addClass(Class(name: className))
+                addClass(Class(originalName: className))
             }
         }
     }

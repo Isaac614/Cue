@@ -124,13 +124,13 @@ let previewContainer: ModelContainer = {
         )
         
         // Add sample data
-        let sampleClass1 = Class(name: "Computer Science 101", color: Color(.blue))
+        let sampleClass1 = Class(originalName: "Computer Science 101", color: Color(.blue))
         let assignment1 = Assignment(name: "Homework 1", desc: "Complete chapter 1 exercises dsflk sflksaj fslkfhs kfskfskfskksf skd fsk fsk", dueDate: Date(), parentClass: sampleClass1)
         let assignment2 = Assignment(name: "Midterm Exam", desc: "Chapters 1-5", dueDate: Date().addingTimeInterval(172800), parentClass: sampleClass1)
         sampleClass1.addAssignment(assignment1)
         sampleClass1.addAssignment(assignment2)
         
-        let sampleClass2 = Class(name: "Math 202")
+        let sampleClass2 = Class(originalName: "Math 202")
         let assignment3 = Assignment(name: "Problem Set 3", desc: "Integration problems", dueDate: Date().addingTimeInterval(259200), parentClass: sampleClass2)
         sampleClass2.addAssignment(assignment3)
         
