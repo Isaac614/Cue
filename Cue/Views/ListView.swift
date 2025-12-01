@@ -34,12 +34,47 @@ struct ListView: View {
                 return nameA < nameB
             }
     }
+    
+    var upcomingAssignments: [Assignment] {
+        classes
+            .flatMap(\.assignments)
+            .filter { a in
+                guard let dueDate = a.dueDate else { return false }
+                
+                let today = Calendar.current.startOfDay(for: Date())
+                let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
+                let eightDaysFromToday = Calendar.current.date(byAdding: .day, value: 8, to: today)!
+                
+                return dueDate >= tomorrow && dueDate < eightDaysFromToday
+            }
+            .sorted { a, b in
+                // 1. Sort by class name first
+                let classA = a.className ?? ""
+                let classB = b.className ?? ""
+                if classA != classB {
+                    return classA < classB
+                }
+                
+                // 2. If same class, sort by due date
+                guard let dateA = a.dueDate, let dateB = b.dueDate else {
+                    return false
+                }
+                if dateA != dateB {
+                    return dateA < dateB
+                }
+                
+                // 3. If same class and due date, sort alphabetically by name
+                let nameA = a.name ?? ""
+                let nameB = b.name ?? ""
+                return nameA < nameB
+            }
+    }
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 // Classes Section
-                LazyVStack(spacing: 16) {
+                LazyVStack(spacing: 22) {
                     ForEach(classes) { classObject in
                         NavigationLink {
                             ClassView(classObject: classObject)
@@ -55,7 +90,7 @@ struct ListView: View {
                 
                 
                 // Due Today Section
-                LazyVStack(spacing: 16) {
+                LazyVStack(spacing: 19) {
                     Text("Due Today")
                         .font(.title)
                         .bold()
@@ -75,6 +110,36 @@ struct ListView: View {
                     }
                 }
                 .padding(.horizontal)
+                
+                
+                Divider()
+                    .padding(.horizontal, 35)
+                    .padding(.vertical, 35)
+                
+                
+                // Upcoming Section
+                LazyVStack(spacing: 19) {
+                    Text("Upcoming")
+                        .font(.title)
+                        .bold()
+                        
+                    if upcomingAssignments.count > 0 {
+                        ForEach(upcomingAssignments) { a in
+                            NavigationLink {
+                                AssignmentDetailsView(assignment: a)
+                            } label: {
+                                AssignmentListView(assignment: a, includeClass: true)
+                            }
+                        }
+                    } else {
+                        Text("You're all caught up!")
+                            .font(.default)
+                            .foregroundColor(Color(#colorLiteral(red: 0.370555222, green: 0.3705646992, blue: 0.3705595732, alpha: 1)))
+                    }
+                }
+                .padding(.horizontal)
+
+                
             }
             .background(Color("BackgroundColor"))
             .foregroundStyle(Color("TextColor"))

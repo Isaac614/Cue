@@ -41,7 +41,7 @@ struct AssignmentListView: View {
                         Text(assignment.name ?? "there is no name for this assignment")
                             .font(.headline)
                     } else {
-                        Text("\(assignment.name ?? "there is no name for this assignment") - \(assignment.className ?? "Unnamed Class")")
+                        Text("\(assignment.className ?? "Unnamed Class") - \(assignment.name ?? "there is no name for this assignment")")
                             .font(.headline)
                         
                     }
