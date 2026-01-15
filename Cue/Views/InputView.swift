@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct InputView: View {
-    @State private var icsLink: String = "https://byui.instructure.com/feeds/calendars/user_MW9zKHiVd9h9cuWWsZjt5i1zHLRYUrt3wzEo4xjC.ics"
+    @State private var icsLink: String = ""
     
     
     let viewModel: CalendarViewModel
