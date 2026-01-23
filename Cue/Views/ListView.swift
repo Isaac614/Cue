@@ -48,14 +48,7 @@ struct ListView: View {
                 return dueDate >= tomorrow && dueDate < eightDaysFromToday
             }
             .sorted { a, b in
-                // 1. Sort by class name first
-                let classA = a.className ?? ""
-                let classB = b.className ?? ""
-                if classA != classB {
-                    return classA < classB
-                }
-                
-                // 2. If same class, sort by due date
+                // 1. Sort by due date first
                 guard let dateA = a.dueDate, let dateB = b.dueDate else {
                     return false
                 }
@@ -63,12 +56,20 @@ struct ListView: View {
                     return dateA < dateB
                 }
                 
-                // 3. If same class and due date, sort alphabetically by name
+                // 2. If same date, sort by class name
+                let classA = a.className ?? ""
+                let classB = b.className ?? ""
+                if classA != classB {
+                    return classA < classB
+                }
+                
+                // 3. If same date + class, sort alphabetically by name
                 let nameA = a.name ?? ""
                 let nameB = b.name ?? ""
                 return nameA < nameB
             }
     }
+
 
     var body: some View {
         NavigationStack {
