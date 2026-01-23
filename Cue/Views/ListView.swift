@@ -19,7 +19,7 @@ struct ListView: View {
                 if classA != classB {
                     return classA < classB
                 }
-
+                
                 // 2. If same class, sort by due date
                 guard let dateA = a.dueDate, let dateB = b.dueDate else {
                     return false
@@ -69,107 +69,138 @@ struct ListView: View {
                 return nameA < nameB
             }
     }
-
-
+    
+    
     var body: some View {
         NavigationStack {
-            ScrollView {
-                // Classes Section
-                LazyVStack(spacing: 22) {
-                    ForEach(classes) { classObject in
-                        NavigationLink {
-                            ClassView(classObject: classObject)
-                        } label: {
-                            ClassListView(classObject: classObject)
+            List {
+                // MARK: Classes Section
+                ForEach(classes) { classObject in
+                    NavigationLink {
+                        ClassView(classObject: classObject)
+                    } label: {
+                        ClassListView(classObject: classObject)
+                            .padding(.horizontal)
+                            .padding(.vertical, 12)
+                    }
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                    .navigationLinkIndicatorVisibility(.hidden)
+                    .swipeActions {
+                        Button("Delete") {
+                            print("Deleted")
                         }
+                        .tint(.red)
                     }
                 }
-                .padding(.horizontal)
+                
                 Divider()
                     .padding(.horizontal, 35)
                     .padding(.vertical, 20)
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
                 
+                // MARK: Due Today Section
+                Text("Due Today")
+                    .font(.title)
+                    .bold()
+                    .padding(.horizontal)
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
                 
-                // Due Today Section
-                LazyVStack(spacing: 19) {
-                    Text("Due Today")
-                        .font(.title)
-                        .bold()
-                        
-                    if dueAssignments.count > 0 {
-                        ForEach(dueAssignments) { a in
-                            NavigationLink {
-                                AssignmentDetailsView(assignment: a)
-                            } label: {
-                                AssignmentListView(assignment: a, includeClass: true)
-                            }
+                if dueAssignments.isEmpty {
+                    Text("You're all caught up!")
+                        .font(.body)
+                        .foregroundColor(Color.gray)
+                        .padding(.horizontal)
+                        .listRowInsets(EdgeInsets())
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.clear)
+                } else {
+                    ForEach(dueAssignments) { assignment in
+                        NavigationLink {
+                            AssignmentDetailsView(assignment: assignment)
+                        } label: {
+                            AssignmentListView(assignment: assignment, includeClass: true)
+                                .padding(.horizontal)
+                                .padding(.vertical, 9)
                         }
-                    } else {
-                        Text("You're all caught up!")
-                            .font(.default)
-                            .foregroundColor(Color(#colorLiteral(red: 0.370555222, green: 0.3705646992, blue: 0.3705595732, alpha: 1)))
+                        .listRowInsets(EdgeInsets())
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.clear)
+                        .navigationLinkIndicatorVisibility(.hidden)
                     }
                 }
-                .padding(.horizontal)
-                
                 
                 Divider()
                     .padding(.horizontal, 35)
                     .padding(.vertical, 35)
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
                 
+                // MARK: Upcoming Section
+                Text("Upcoming")
+                    .font(.title)
+                    .bold()
+                    .padding(.horizontal)
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
                 
-                // Upcoming Section
-                LazyVStack(spacing: 19) {
-                    Text("Upcoming")
-                        .font(.title)
-                        .bold()
-                        
-                    if upcomingAssignments.count > 0 {
-                        ForEach(upcomingAssignments) { a in
-                            NavigationLink {
-                                AssignmentDetailsView(assignment: a)
-                            } label: {
-                                AssignmentListView(assignment: a, includeClass: true)
-                            }
+                if upcomingAssignments.isEmpty {
+                    Text("You're all caught up!")
+                        .font(.body)
+                        .foregroundColor(Color.gray)
+                        .padding(.horizontal)
+                        .listRowInsets(EdgeInsets())
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.clear)
+                } else {
+                    ForEach(upcomingAssignments) { assignment in
+                        NavigationLink {
+                            AssignmentDetailsView(assignment: assignment)
+                        } label: {
+                            AssignmentListView(assignment: assignment, includeClass: true)
+                                .padding(.horizontal)
+                                .padding(.vertical, 9)
                         }
-                    } else {
-                        Text("You're all caught up!")
-                            .font(.default)
-                            .foregroundColor(Color(#colorLiteral(red: 0.370555222, green: 0.3705646992, blue: 0.3705595732, alpha: 1)))
+                        .listRowInsets(EdgeInsets())
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.clear)
+                        .navigationLinkIndicatorVisibility(.hidden)
                     }
                 }
-                .padding(.horizontal)
-
-                
             }
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
             .background(Color("BackgroundColor"))
             .foregroundStyle(Color("TextColor"))
             .background(.white)
             .navigationTitle("Classes")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                   Button (
-                    action: {
+                    Button {
                         viewModel.icsURL = URL(string: "https://byui.instructure.com/feeds/calendars/user_MW9zKHiVd9h9cuWWsZjt5i1zHLRYUrt3wzEo4xjC.ics")
-                        Task {
-                            await viewModel.updateCalendar(context: modelContext)
-                        }
-                    }, label: {
+                        Task { await viewModel.updateCalendar(context: modelContext) }
+                    } label: {
                         Image(systemName: "arrow.clockwise")
-                    })
+                    }
                 }
                 ToolbarItem(placement: .topBarLeading) {
-                    Button (
-                        action: {
-                            for classObj: Class in classes {
-                                classObj.red = 1
-                                classObj.green = 0.65
-                                classObj.blue = 0.7
-                                classObj.opacity = 1
-                            }
-                        }, label: {
-                            Image(systemName: "paintpalette")
-                        })
+                    Button {
+                        for classObj in classes {
+                            classObj.red = 1
+                            classObj.green = 0.65
+                            classObj.blue = 0.7
+                            classObj.opacity = 1
+                        }
+                    } label: {
+                        Image(systemName: "paintpalette")
+                    }
                 }
             }
         }

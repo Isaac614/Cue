@@ -43,13 +43,13 @@ struct ClassView: View {
         }
     }
     
-//    var gradientColors: [Color] {
-//        guard let base = classColor else {
-//            return [Color(.pink).darker(by: 0), Color(.pink).lighter(by: 0.3)]
-//        }
-//        
-//        return [base.darker(by: 0), base.lighter(by: 0.3)]
-//    }
+    //    var gradientColors: [Color] {
+    //        guard let base = classColor else {
+    //            return [Color(.pink).darker(by: 0), Color(.pink).lighter(by: 0.3)]
+    //        }
+    //
+    //        return [base.darker(by: 0), base.lighter(by: 0.3)]
+    //    }
     
     var body: some View {
         ScrollView {
@@ -57,7 +57,12 @@ struct ClassView: View {
                 ForEach(sortedAssignments) { assignment in
                     NavigationLink {
                         AssignmentDetailsView(assignment: assignment)
-                    } label: {
+                    }
+                    
+                    
+                    
+                    
+                    label: {
                         AssignmentListView(assignment: assignment)
                     }
                 }
@@ -66,11 +71,11 @@ struct ClassView: View {
         }
         .background(Color("BackgroundColor"))
         .navigationTitle(className)
-//        .background(LinearGradient(
-//            colors: gradientColors,
-//            startPoint: .topLeading,
-//            endPoint: .bottomTrailing
-//        ))
+        //        .background(LinearGradient(
+        //            colors: gradientColors,
+        //            startPoint: .topLeading,
+        //            endPoint: .bottomTrailing
+        //        ))
     }
 }
 
@@ -84,11 +89,11 @@ extension Color {
     }
     
     private func adjust(by percentage: Double) -> Color {
-        #if canImport(UIKit)
+#if canImport(UIKit)
         guard let components = UIColor(self).cgColor.components else { return self }
-        #elseif canImport(AppKit)
+#elseif canImport(AppKit)
         guard let components = NSColor(self).cgColor.components else { return self }
-        #endif
+#endif
         
         return Color(
             red: min(max(components[0] + percentage, 0), 1),
