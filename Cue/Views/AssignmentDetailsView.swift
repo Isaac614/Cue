@@ -40,7 +40,6 @@ struct AssignmentDetailsView: View {
     
     var softGreenGradient: LinearGradient {
         if colorScheme == .dark {
-            // Dark mode version - deeper, more muted
             return LinearGradient(
                 colors: [
                         Color(red: 0.5, green: 0.5, blue: 0.5),
@@ -50,7 +49,6 @@ struct AssignmentDetailsView: View {
                 endPoint: .bottomTrailing
             )
         } else {
-            // Light mode version - your original
             return LinearGradient(
                 colors: [
                     Color(red: 0.6, green: 1, blue: 0.6),
