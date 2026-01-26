@@ -4,19 +4,10 @@ struct AssignmentListView: View {
     
     let assignment: Assignment
     
-    var completeColor: Color {
-        assignment.isComplete ? Color(.green) : Color(.red)
-    }
+//    var completeColor: Color {
+//        assignment.isComplete ? Color(.green) : Color(.red)
+//    }
     
-    var classColor: Color? {
-        guard let r = assignment.red,
-              let g = assignment.green,
-              let b = assignment.blue else {
-            return nil
-        }
-        
-        return Color(red: r, green: g, blue: b)
-    }
     
     var includeClass: Bool = false
     
@@ -29,7 +20,7 @@ struct AssignmentListView: View {
                 }, label: {
                     Image(systemName: assignment.isComplete ? "circle.fill" : "circle")
                         .resizable()
-                        .foregroundStyle(classColor ?? completeColor)
+                        .foregroundStyle(assignment.parentClass.color)
                         .frame(width: 20, height: 20)
                 })
             .buttonStyle(PlainButtonStyle())
@@ -60,10 +51,6 @@ struct AssignmentListView: View {
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
         .glassEffect(.regular.tint(Color("CapsuleGlassColor")))
-//        .overlay {
-//            Capsule()
-//                .stroke(classColor ?? Color(.clear), lineWidth: 2) // Match your shape
-//        }
         .contentShape(Capsule())
         .lineLimit(1)
         .foregroundStyle(Color("TextColor"))

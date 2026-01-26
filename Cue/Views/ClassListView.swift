@@ -9,16 +9,7 @@ struct ClassListView: View {
     
     var isPressed: Bool = false
     
-    var classColor: Color {
-        guard let r = classObject.red,
-              let g = classObject.green,
-              let b = classObject.blue else {
-            return Color("TextColor")
-        }
-        
-        return Color(red: r, green: g, blue: b)
-    }
-
+    
     var body: some View {
         HStack {
             Text(className)
@@ -33,7 +24,7 @@ struct ClassListView: View {
         .glassEffect(.regular.tint(Color("CapsuleGlassColor")).interactive())
         .contentShape(Capsule())
         .foregroundStyle(
-            classColor
+            classObject.color
         )
     }
 }

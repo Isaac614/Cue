@@ -5,6 +5,7 @@ struct ListView: View {
     let viewModel: CalendarViewModel
     @Environment(\.modelContext) var modelContext
     @Query var classes: [Class]
+    @State var swipedClass: Class? = nil
     
     var dueAssignments: [Assignment] {
         classes
@@ -87,11 +88,13 @@ struct ListView: View {
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
                     .navigationLinkIndicatorVisibility(.hidden)
-                    .swipeActions {
-                        Button("Delete") {
-                            print("Deleted")
+                    .swipeActions(edge: .leading) {
+                        Button {
+                            swipedClass = classObject
+                        } label: {
+                            Image(systemName: "paintpalette")
                         }
-                        .tint(.red)
+//                        .tint(.red)
                     }
                 }
                 
@@ -203,6 +206,9 @@ struct ListView: View {
                     }
                 }
             }
+        }
+        .sheet(item: $swipedClass) { classToEdit in
+//            ColorPicker()
         }
     }
 }

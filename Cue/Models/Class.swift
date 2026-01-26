@@ -19,6 +19,13 @@ final class Class: Hashable {
     var green: Double? = nil
     var opacity: Double? = nil
     
+    var color: Color {
+        if let red = red, let green = green, let blue = blue, let opacity = opacity {
+            return Color(red: red, green: green, blue: blue, opacity: opacity)
+        } else {
+            return Color("TextColor")
+        }
+    }
     
     
     init(originalName: String?, assignments: [Assignment] = [], color: Color? = nil, userName: String? = nil) {
@@ -49,6 +56,25 @@ final class Class: Hashable {
     func addAssignment(_ assignment: Assignment) {
         assignments.append(assignment)
     }
+    
+    func updateColor(_ newColor: Color) {
+        #if canImport(UIKit)
+        if let components = UIColor(newColor).cgColor.components {
+            self.red = Double(components[0])
+            self.green = Double(components[1])
+            self.blue = Double(components[2])
+            self.opacity = components.count > 3 ? Double(components[3]) : 1.0
+        }
+        #elseif canImport(AppKit)
+        if let components = NSColor(newColor).cgColor.components {
+            self.red = Double(components[0])
+            self.green = Double(components[1])
+            self.blue = Double(components[2])
+            self.opacity = components.count > 3 ? Double(components[3]) : 1.0
+        }
+        #endif
+    }
+
 
     static func == (lhs: Class, rhs: Class) -> Bool {
         lhs === rhs  // compare references
@@ -57,4 +83,6 @@ final class Class: Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(ObjectIdentifier(self))
     }
+    
+    
 }
