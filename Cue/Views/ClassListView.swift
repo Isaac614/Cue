@@ -7,7 +7,7 @@ struct ClassListView: View {
         classObject.userName
     }
     
-    var isPressed: Bool = false
+//    var isPressed: Bool = false
     
     
     var body: some View {
@@ -21,7 +21,7 @@ struct ClassListView: View {
         .padding(.horizontal, 30)
         .padding(.vertical, 30)
         .frame(maxWidth: .infinity)
-        .glassEffect(.regular.tint(Color("CapsuleGlassColor")).interactive())
+        .glassEffect(.regular.tint(Color("CapsuleGlassColor")))//.interactive())
         .contentShape(Capsule())
         .foregroundStyle(
             classObject.color

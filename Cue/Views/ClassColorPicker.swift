@@ -38,7 +38,6 @@ struct ClassColorPicker: View {
                             .glassEffect(.regular.interactive())
                         
                     }
-                    .frame(width: .infinity)
                     .padding(.horizontal, 20)
                     
                     
@@ -97,6 +96,7 @@ struct ClassColorPicker: View {
             }
             Spacer()
         }
+        .padding(.vertical, 20)
         .background(Color("BackgroundColor"))
     }
     

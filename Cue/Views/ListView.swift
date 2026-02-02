@@ -90,7 +90,10 @@ struct ListView: View {
                     .navigationLinkIndicatorVisibility(.hidden)
                     .swipeActions(edge: .leading) {
                         Button {
-                            swipedClass = classObject
+                            DispatchQueue.main.async {
+                                    swipedClass = classObject
+                                }
+//                            swipedClass = classObject
                             
                         } label: {
                             Image(systemName: "paintpalette")
@@ -204,7 +207,6 @@ struct ListView: View {
         }
         .sheet(item: $swipedClass) { classToEdit in
             ClassColorPicker(classObject: classToEdit)
-                .padding(.vertical)
         }
     }
     
