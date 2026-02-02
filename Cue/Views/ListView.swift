@@ -91,13 +91,20 @@ struct ListView: View {
                     .swipeActions(edge: .leading) {
                         Button {
                             swipedClass = classObject
+                            
                         } label: {
                             Image(systemName: "paintpalette")
                         }
-//                        .tint(.red)
+                        
+                        Button(role: .destructive) {
+                            deleteClass(classObject)
+                            
+                        } label: {
+                            Text("Delete")
+                        }
                     }
                 }
-                
+
                 Divider()
                     .padding(.horizontal, 35)
                     .padding(.vertical, 20)
@@ -193,24 +200,26 @@ struct ListView: View {
                         Image(systemName: "arrow.clockwise")
                     }
                 }
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        for classObj in classes {
-                            classObj.red = 1
-                            classObj.green = 0.65
-                            classObj.blue = 0.7
-                            classObj.opacity = 1
-                        }
-                    } label: {
-                        Image(systemName: "paintpalette")
-                    }
-                }
             }
         }
         .sheet(item: $swipedClass) { classToEdit in
-//            ColorPicker()
+            ClassColorPicker(classObject: classToEdit)
+                .padding(.vertical)
         }
     }
+    
+    
+    private func deleteClass(_ classItem: Class) {
+            // Remove from context
+            modelContext.delete(classItem)
+            
+            // Save changes
+            do {
+                try modelContext.save()
+            } catch {
+                print("Failed to delete class: \(error)")
+            }
+        }
 }
 
 #Preview {

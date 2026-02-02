@@ -16,7 +16,7 @@ final class Assignment {
     var green: Double? { parentClass.green }
     var blue: Double? { parentClass.blue }
     var opacity: Double? { parentClass.opacity }
-    var className: String? { parentClass.userName ?? parentClass.originalName }
+    var className: String? { parentClass.userName }
     
     
     var formattedDate: String? {

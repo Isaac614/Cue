@@ -10,46 +10,56 @@ import AppKit
 
 @Model
 final class Class: Hashable {
-    var originalName: String?
-    var userName: String?
+    var originalName: String
+//    var userName: String?
+    var userName: String
     
     @Relationship(deleteRule: .cascade) var assignments: [Assignment]
+    
     var red: Double? = nil
     var blue: Double? = nil
     var green: Double? = nil
     var opacity: Double? = nil
     
     var color: Color {
-        if let red = red, let green = green, let blue = blue, let opacity = opacity {
-            return Color(red: red, green: green, blue: blue, opacity: opacity)
-        } else {
-            return Color("TextColor")
+        get {
+            if let red = red, let green = green, let blue = blue, let opacity = opacity {
+                return Color(red: red, green: green, blue: blue, opacity: opacity)
+            } else {
+                return Color("TextColor")
+            }
+        }
+        set {
+            if let rgba = newValue.getRGBA() {
+                red = rgba.red
+                green = rgba.green
+                blue = rgba.blue
+                opacity = rgba.alpha
+            }
         }
     }
     
     
     init(originalName: String?, assignments: [Assignment] = [], color: Color? = nil, userName: String? = nil) {
-        self.originalName = originalName
+        self.originalName = originalName ?? "Unnamed Class"
+        if let userName {
+            self.userName = userName
+        } else {
+            self.userName = originalName ?? "Unnamed Class"
+        }
         self.assignments = assignments
-        self.userName = userName ?? originalName
         
         
-        if let color = color {
-            #if canImport(UIKit)
-            if let components = UIColor(color).cgColor.components {
-                self.red = Double(components[0])
-                self.green = Double(components[1])
-                self.blue = Double(components[2])
-                self.opacity = components.count > 3 ? Double(components[3]) : 1.0
-            }
-            #elseif canImport(AppKit)
-            if let components = NSColor(color).cgColor.components {
-                self.red = Double(components[0])
-                self.green = Double(components[1])
-                self.blue = Double(components[2])
-                self.opacity = components.count > 3 ? Double(components[3]) : 1.0
-            }
-            #endif
+        if let color = color, let rgba = color.getRGBA() {
+            self.red = rgba.red
+            self.green = rgba.green
+            self.blue = rgba.blue
+            self.opacity = rgba.alpha
+        } else {
+            self.red = nil
+            self.green = nil
+            self.blue = nil
+            self.opacity = nil
         }
     }
 
@@ -57,24 +67,6 @@ final class Class: Hashable {
         assignments.append(assignment)
     }
     
-    func updateColor(_ newColor: Color) {
-        #if canImport(UIKit)
-        if let components = UIColor(newColor).cgColor.components {
-            self.red = Double(components[0])
-            self.green = Double(components[1])
-            self.blue = Double(components[2])
-            self.opacity = components.count > 3 ? Double(components[3]) : 1.0
-        }
-        #elseif canImport(AppKit)
-        if let components = NSColor(newColor).cgColor.components {
-            self.red = Double(components[0])
-            self.green = Double(components[1])
-            self.blue = Double(components[2])
-            self.opacity = components.count > 3 ? Double(components[3]) : 1.0
-        }
-        #endif
-    }
-
 
     static func == (lhs: Class, rhs: Class) -> Bool {
         lhs === rhs  // compare references

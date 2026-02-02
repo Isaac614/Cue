@@ -4,7 +4,7 @@ struct ClassListView: View {
     let classObject: Class
     
     var className:String {
-        classObject.userName ?? classObject.originalName ?? "Unnamed Class"
+        classObject.userName
     }
     
     var isPressed: Bool = false
