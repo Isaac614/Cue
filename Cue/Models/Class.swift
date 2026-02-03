@@ -10,6 +10,7 @@ import AppKit
 
 @Model
 final class Class: Hashable {
+    @Attribute(.unique) var id: UUID
     var originalName: String
 //    var userName: String?
     var userName: String
@@ -40,7 +41,8 @@ final class Class: Hashable {
     }
     
     
-    init(originalName: String?, assignments: [Assignment] = [], color: Color? = nil, userName: String? = nil) {
+    init(id: UUID, originalName: String?, assignments: [Assignment] = [], color: Color? = nil, userName: String? = nil) {
+        self.id = id
         self.originalName = originalName ?? "Unnamed Class"
         if let userName {
             self.userName = userName

@@ -4,6 +4,7 @@ import SwiftUI
 
 @Model
 final class Assignment {
+    var icsUID: String
     var name: String?
     var desc: String?
     var dueDate: Date?
@@ -41,7 +42,8 @@ final class Assignment {
     }
 
     
-    init(name: String?, desc: String?, dueDate: Date?, parentClass: Class, isComplete: Bool = false) {
+    init(icsUID: String, name: String?, desc: String?, dueDate: Date?, parentClass: Class, isComplete: Bool = false) {
+        self.icsUID = icsUID
         self.name = name
         self.desc = desc
         self.dueDate = dueDate

@@ -3,16 +3,10 @@ import SwiftUI
 struct ClassListView: View {
     let classObject: Class
     
-    var className:String {
-        classObject.userName
-    }
-    
-//    var isPressed: Bool = false
-    
     
     var body: some View {
         HStack {
-            Text(className)
+            Text(classObject.userName)
             Spacer()
             Image(systemName: "chevron.right")
         }
@@ -21,7 +15,7 @@ struct ClassListView: View {
         .padding(.horizontal, 30)
         .padding(.vertical, 30)
         .frame(maxWidth: .infinity)
-        .glassEffect(.regular.tint(Color("CapsuleGlassColor")))//.interactive())
+        .glassEffect(.regular.tint(Color("CapsuleGlassColor")))
         .contentShape(Capsule())
         .foregroundStyle(
             classObject.color
