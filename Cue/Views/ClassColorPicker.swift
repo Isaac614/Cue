@@ -42,24 +42,110 @@ struct ClassColorPicker: View {
                     
                     
                     
-                    
-                    ColorPicker(selection: $classObject.color) {
+                    VStack(spacing: 20) {
                         HStack {
-                            Image(systemName: "paintpalette")
-                                .foregroundStyle(classObject.color)
-                            Text("Color")
-                                .font(.headline)
+                            Spacer()
+                            Button {
+                                classObject.color = Color("TextColor")
+                            } label: {
+                                Circle()
+                                    .fill(Color("TextColor"))
+                                    .frame(width: 40, height: 40)
+                            }
+                            
+                            Spacer()
+                            Button {
+                                classObject.color = Color(red: 1, green: 69/255, blue: 116/255)
+                            } label: {
+                                Circle()
+                                    .fill(Color(red: 1, green: 69/255, blue: 116/255))
+                                    .frame(width: 40, height: 40)
+                            }
+                            
+                            Spacer()
+                            Button {
+                                classObject.color = Color(red: 255/255, green: 167/255, blue: 138/255)
+                            } label: {
+                                Circle()
+                                    .fill(Color(red: 255/255, green: 167/255, blue: 138/255))
+                                    .frame(width: 40, height: 40)
+                            }
+                            
+                            Spacer()
+                            Button {
+                                classObject.color = Color(red: 255/255, green: 193/255, blue: 94/255)
+                            } label: {
+                                Circle()
+                                    .fill(Color(red: 255/255, green: 193/255, blue: 94/255))
+                                    .frame(width: 40, height: 40)
+                            }
+                            
+                            Spacer()
+                            Button {
+                                classObject.color = Color(red: 63/255, green: 178/255, blue: 80/255)
+                            } label: {
+                                Circle()
+                                    .fill(Color(red: 63/255, green: 178/255, blue: 80/255))
+                                    .frame(width: 40, height: 40)
+                            }
+                            
+                            Spacer()
+                        }
+                        HStack {
+                            Spacer()
+                            Button {
+                                classObject.color = Color(red: 77/255, green: 182/255, blue: 172/255)
+                            } label: {
+                                Circle()
+                                    .fill(Color(red: 77/255, green: 182/255, blue: 172/255))
+                                    .frame(width: 40, height: 40)
+                            }
+                            
+                            Spacer()
+                            Button {
+                                classObject.color = Color(red: 100/255, green: 181/255, blue: 246/255)
+                            } label: {
+                                Circle()
+                                    .fill(Color(red: 100/255, green: 181/255, blue: 246/255))
+                                    .frame(width: 40, height: 40)
+                            }
+                            
+                            Spacer()
+                            Button {
+                                classObject.color = Color(red: 179/255, green: 157/255, blue: 219/255)
+                            } label: {
+                                Circle()
+                                    .fill(Color(red: 179/255, green: 157/255, blue: 219/255))
+                                    .frame(width: 40, height: 40)
+                            }
+                            
+                            Spacer()
+                            Button {
+                                classObject.color = Color(red: 240/255, green: 98/255, blue: 146/255)
+                            } label: {
+                                Circle()
+                                    .fill(Color(red: 240/255, green: 98/255, blue: 146/255))
+                                    .frame(width: 40, height: 40)
+                            }
+                            
+                            Spacer()
+                            ColorPicker("", selection: $classObject.color)
+                                .frame(width: 40, height: 40)
+                                .scaleEffect(1.7)
+                            .labelsHidden()
+                            .onChange(of: classObject.color) { oldValue, newValue in
+                                if let rgba = classObject.color.getRGBA() {
+                                    classObject.red = rgba.red
+                                    classObject.green = rgba.green
+                                    classObject.blue = rgba.blue
+                                    classObject.opacity = rgba.alpha
+                                }
+                            }
+                            
+                            Spacer()
                         }
                     }
-                    .padding(.horizontal, 20)
-                    .onChange(of: classObject.color) { oldValue, newValue in
-                        if let rgba = classObject.color.getRGBA() {
-                            classObject.red = rgba.red
-                            classObject.green = rgba.green
-                            classObject.blue = rgba.blue
-                            classObject.opacity = rgba.alpha
-                        }
-                    }
+                    
                 }
                 .padding(.top, 90)
                 
