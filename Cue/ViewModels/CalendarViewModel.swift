@@ -137,8 +137,6 @@ class CalendarViewModel {
             var classObj: Class
             
             if let originalName = parsedClass.originalName {
-                // Use a local constant in the predicate
-                let nameToSearch = parsedClass.originalName
                 let classFetch = FetchDescriptor<Class>(predicate: #Predicate { $0.originalName == originalName })
                 classObj = (try? context.fetch(classFetch).first) ?? Class(id: parsedClass.id, originalName: originalName)
             } else {

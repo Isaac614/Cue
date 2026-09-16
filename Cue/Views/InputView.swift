@@ -10,13 +10,25 @@ struct InputView: View {
     
     var body: some View {
         VStack(spacing: 12) {
-            TextField("Enter your ICS link...", text: $icsLink)
-                .padding(.horizontal, 20)
-                .frame(height: 55)
-                .frame(maxWidth: .infinity)
-                .font(.body)
-                .glassEffect(.regular.tint(Color(red: 0.8, green: 0.9, blue: 1)).interactive())
-        
+            HStack {
+                
+                
+                TextField("Enter your ICS link...", text: $icsLink)
+                    .padding(.horizontal, 20)
+                    .frame(height: 55)
+                    .frame(maxWidth: .infinity)
+                    .font(.body)
+                    .glassEffect(.regular.interactive())
+                
+                Button(
+                    action: {
+                        
+                    }, label: {
+                        
+                    }
+                    
+                )
+            }
 
             
             Button(

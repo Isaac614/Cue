@@ -88,7 +88,7 @@ struct ListView: View {
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
                     .navigationLinkIndicatorVisibility(.hidden)
-                    .swipeActions(edge: .leading) {
+                    .swipeActions(edge: .trailing) {
                         Button {
                             DispatchQueue.main.async {
                                     swipedClass = classObject
