@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    let viewModel = ICSManager(icsURL: nil)
+    let viewModel = ICSManager()
     var body: some View {
         TabView {
             ListView(viewModel: viewModel)

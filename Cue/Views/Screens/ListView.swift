@@ -4,72 +4,30 @@ import SwiftData
 struct ListView: View {
     let viewModel: ICSManager
     @Environment(\.modelContext) var modelContext
-    @Query var classes: [Class]
+    @Query(sort: \Class.userName, order: .forward) var classes: [Class]
     @State var swipedClass: Class? = nil
     
     var dueAssignments: [Assignment] {
         classes
-            .flatMap(\.assignments)
-            .filter { a in
-                a.dueDate.map { Calendar.current.isDateInToday($0) } ?? false
-            }
-            .sorted { a, b in
-                // 1. Sort by class name first
-                let classA = a.className ?? ""
-                let classB = b.className ?? ""
-                if classA != classB {
-                    return classA < classB
-                }
-                
-                // 2. If same class, sort by due date
-                guard let dateA = a.dueDate, let dateB = b.dueDate else {
-                    return false
-                }
-                if dateA != dateB {
-                    return dateA < dateB
-                }
-                
-                // 3. If same class and due date, sort alphabetically by name
-                let nameA = a.name ?? ""
-                let nameB = b.name ?? ""
-                return nameA < nameB
-            }
+            .flatMap(\.todaysAssignments)
     }
-    
+
     var upcomingAssignments: [Assignment] {
-        classes
-            .flatMap(\.assignments)
-            .filter { a in
-                guard let dueDate = a.dueDate else { return false }
-                
-                let today = Calendar.current.startOfDay(for: Date())
-                let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
-                let eightDaysFromToday = Calendar.current.date(byAdding: .day, value: 8, to: today)!
-                
-                return dueDate >= tomorrow && dueDate < eightDaysFromToday
-            }
-            .sorted { a, b in
-                // 1. Sort by due date first
-                guard let dateA = a.dueDate, let dateB = b.dueDate else {
-                    return false
-                }
-                if dateA != dateB {
-                    return dateA < dateB
-                }
-                
-                // 2. If same date, sort by class name
-                let classA = a.className ?? ""
-                let classB = b.className ?? ""
-                if classA != classB {
-                    return classA < classB
-                }
-                
-                // 3. If same date + class, sort alphabetically by name
-                let nameA = a.name ?? ""
-                let nameB = b.name ?? ""
-                return nameA < nameB
-            }
-    }
+           classes
+               .flatMap(\.upcomingAssignments)
+               .sorted { a, b in
+                   if a.dueDate != b.dueDate {
+                       return (a.dueDate ?? .distantPast) < (b.dueDate ?? .distantPast)
+                   }
+                   
+                   if a.className != b.className {
+                       return (a.className ?? "") < (b.className ?? "")
+                   }
+                   
+                   return (a.name ?? "") < (b.name ?? "")
+               }
+       }
+
     
     
     var body: some View {
@@ -93,7 +51,6 @@ struct ListView: View {
                             DispatchQueue.main.async {
                                     swipedClass = classObject
                                 }
-//                            swipedClass = classObject
                             
                         } label: {
                             Image(systemName: "paintpalette")
@@ -197,7 +154,6 @@ struct ListView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        viewModel.icsURL = URL(string: "https://byui.instructure.com/feeds/calendars/user_MW9zKHiVd9h9cuWWsZjt5i1zHLRYUrt3wzEo4xjC.ics")
                         Task { await viewModel.updateCalendar(context: modelContext) }
                     } label: {
                         Image(systemName: "arrow.clockwise")
@@ -225,7 +181,7 @@ struct ListView: View {
 }
 
 #Preview {
-    ListView(viewModel: ICSManager(icsURL: URL(string: "https://byui.instructure.com/feeds/calendars/user_MW9zKHiVd9h9cuWWsZjt5i1zHLRYUrt3wzEo4xjC.ics")))
+    ListView(viewModel: ICSManager())
         .modelContainer(previewContainer)
 }
 

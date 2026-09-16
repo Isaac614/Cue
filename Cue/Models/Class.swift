@@ -12,10 +12,42 @@ import AppKit
 final class Class: Hashable {
     @Attribute(.unique) var id: UUID
     var originalName: String
-//    var userName: String?
+    //    var userName: String?
     var userName: String
     
     @Relationship(deleteRule: .cascade) var assignments: [Assignment]
+    
+    var sortedAssignments: [Assignment] {
+        assignments
+            .filter { $0.dueDate.map { Calendar.current.isDateInToday($0) || $0 > Date() } ??
+                true }
+            .sorted { a, b in
+                let dateA = a.dueDate ?? .distantPast
+                let dateB = b.dueDate ?? .distantPast
+                
+                if dateA != dateB {
+                    return dateA < dateB
+                }
+                
+                let nameA = a.name ?? ""
+                let nameB = b.name ?? ""
+                return nameA < nameB
+            }
+    }
+    
+    var todaysAssignments: [Assignment] {
+        sortedAssignments.filter {
+            $0.dueDate.map { Calendar.current.isDateInToday($0) } ?? false
+        }
+    }
+    
+    var upcomingAssignments: [Assignment] {
+        sortedAssignments.filter { a in
+            guard let dueDate = a.dueDate else { return false }
+            return !Calendar.current.isDateInToday(dueDate)
+        }
+    }
+
     
     var red: Double? = nil
     var blue: Double? = nil
@@ -64,16 +96,16 @@ final class Class: Hashable {
             self.opacity = nil
         }
     }
-
+    
     func addAssignment(_ assignment: Assignment) {
         assignments.append(assignment)
     }
     
-
+    
     static func == (lhs: Class, rhs: Class) -> Bool {
         lhs === rhs  // compare references
     }
-
+    
     func hash(into hasher: inout Hasher) {
         hasher.combine(ObjectIdentifier(self))
     }

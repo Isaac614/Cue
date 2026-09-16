@@ -33,7 +33,7 @@ struct InputView: View {
             
             Button(
                 action: {
-                    viewModel.icsURL = URL(string: icsLink)
+                    
                     Task {
                         await viewModel.updateCalendar(context: modelContext)
                     }
@@ -55,5 +55,5 @@ struct InputView: View {
 }
 
 #Preview {
-    InputView(viewModel: ICSManager(icsURL: nil))
+    InputView(viewModel: ICSManager())
 }
