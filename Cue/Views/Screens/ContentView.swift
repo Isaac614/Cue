@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    let viewModel = CalendarViewModel(icsURL: nil)
+    let viewModel = ICSManager(icsURL: nil)
     var body: some View {
         TabView {
             ListView(viewModel: viewModel)

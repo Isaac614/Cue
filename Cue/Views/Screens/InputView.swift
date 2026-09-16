@@ -4,7 +4,7 @@ struct InputView: View {
     @State private var icsLink: String = ""
     
     
-    let viewModel: CalendarViewModel
+    let viewModel: ICSManager
 
     @Environment(\.modelContext) var modelContext
     
@@ -55,5 +55,5 @@ struct InputView: View {
 }
 
 #Preview {
-    InputView(viewModel: CalendarViewModel(icsURL: nil))
+    InputView(viewModel: ICSManager(icsURL: nil))
 }

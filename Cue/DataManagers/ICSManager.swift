@@ -26,7 +26,7 @@ struct ParsedAssignment {
 
 @MainActor
 @Observable
-class CalendarViewModel {
+class ICSManager {
 //    var classes: [Class] = []
 //    var isLoading = false
 //    var errorMessage: String?
@@ -211,7 +211,7 @@ class CalendarViewModel {
 
 //@MainActor
 //@Observable
-//class CalendarViewModel {
+//class ICSManager {
 //    var classes: [Class] = []
 //    var isLoading = false
 //    var errorMessage: String?

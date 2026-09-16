@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct ListView: View {
-    let viewModel: CalendarViewModel
+    let viewModel: ICSManager
     @Environment(\.modelContext) var modelContext
     @Query var classes: [Class]
     @State var swipedClass: Class? = nil
@@ -225,7 +225,7 @@ struct ListView: View {
 }
 
 #Preview {
-    ListView(viewModel: CalendarViewModel(icsURL: URL(string: "https://byui.instructure.com/feeds/calendars/user_MW9zKHiVd9h9cuWWsZjt5i1zHLRYUrt3wzEo4xjC.ics")))
+    ListView(viewModel: ICSManager(icsURL: URL(string: "https://byui.instructure.com/feeds/calendars/user_MW9zKHiVd9h9cuWWsZjt5i1zHLRYUrt3wzEo4xjC.ics")))
         .modelContainer(previewContainer)
 }
 
