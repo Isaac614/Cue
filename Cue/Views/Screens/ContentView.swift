@@ -2,15 +2,15 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    let viewModel = ICSManager()
+    let manager = ICSManager()
     var body: some View {
         TabView {
-            ListView(viewModel: viewModel)
+            ListView(manager: manager)
                 .tabItem {
                     Image(systemName: "leaf.fill")
                 }
             
-            InputView(viewModel: viewModel)
+            InputView(manager: manager)
                 .tabItem {
                     Image(systemName: "plus.app.fill")
                 }

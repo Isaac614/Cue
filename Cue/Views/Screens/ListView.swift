@@ -2,10 +2,11 @@ import SwiftUI
 import SwiftData
 
 struct ListView: View {
-    let viewModel: ICSManager
+    let manager: ICSManager
     @Environment(\.modelContext) var modelContext
     @Query(sort: \Class.userName, order: .forward) var classes: [Class]
     @State var swipedClass: Class? = nil
+    @AppStorage("calendarURL") private var icsLink = ""
     
     var dueAssignments: [Assignment] {
         classes
@@ -154,7 +155,7 @@ struct ListView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        Task { await viewModel.updateCalendar(context: modelContext) }
+                        Task { await manager.updateCalendar(context: modelContext, icsURL: icsLink) }
                     } label: {
                         Image(systemName: "arrow.clockwise")
                     }
@@ -181,7 +182,7 @@ struct ListView: View {
 }
 
 #Preview {
-    ListView(viewModel: ICSManager())
+    ListView(manager: ICSManager())
         .modelContainer(previewContainer)
 }
 

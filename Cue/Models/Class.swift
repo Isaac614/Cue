@@ -9,18 +9,16 @@ import AppKit
 #endif
 
 @Model
-final class Class: Hashable {
+final class Class {
     @Attribute(.unique) var id: UUID
     var originalName: String
-    //    var userName: String?
     var userName: String
     
     @Relationship(deleteRule: .cascade) var assignments: [Assignment]
     
     var sortedAssignments: [Assignment] {
         assignments
-            .filter { $0.dueDate.map { Calendar.current.isDateInToday($0) || $0 > Date() } ??
-                true }
+            .filter { $0.dueDate.map { Calendar.current.isDateInToday($0) || $0 > Date() } ?? true }
             .sorted { a, b in
                 let dateA = a.dueDate ?? .distantPast
                 let dateB = b.dueDate ?? .distantPast
@@ -100,15 +98,4 @@ final class Class: Hashable {
     func addAssignment(_ assignment: Assignment) {
         assignments.append(assignment)
     }
-    
-    
-    static func == (lhs: Class, rhs: Class) -> Bool {
-        lhs === rhs  // compare references
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(ObjectIdentifier(self))
-    }
-    
-    
 }

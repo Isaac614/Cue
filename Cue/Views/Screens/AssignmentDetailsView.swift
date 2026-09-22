@@ -3,16 +3,6 @@ import Foundation
 
 struct AssignmentDetailsView: View {
     let assignment: Assignment
-    var className: String? { assignment.name ?? "Unnamed Class" }
-    
-    var completionStatus: String?  {
-        guard let dueDate = assignment.dueDate else { return nil } 
-        
-        let now = Date()
-        return assignment.isComplete ?
-        (now <= dueDate ? "Complete" : "Submitted Late") :
-        (now <= dueDate ? "Not Complete" : "Overdue")
-    }
     
     @Environment(\.colorScheme) var colorScheme
     var softRedGradient: LinearGradient {
@@ -38,13 +28,14 @@ struct AssignmentDetailsView: View {
     }
     
     
-    var softGreenGradient: LinearGradient {
+    var buttonGradientGood: LinearGradient {
         if colorScheme == .dark {
             return LinearGradient(
                 colors: [
-                        Color(red: 0.5, green: 0.5, blue: 0.5),
-                        Color(red: 0.4, green: 0.4, blue: 0.4)
-                    ],
+                    Color(red: 0.16, green: 0.48, blue: 0.37),
+                    Color(red: 0.10, green: 0.38, blue: 0.29),
+                    Color(red: 0.08, green: 0.32, blue: 0.25)
+                ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -69,19 +60,18 @@ struct AssignmentDetailsView: View {
                             .font(.largeTitle)
                             .bold()
                         
-                        if let completionStatus = completionStatus {
-                            Text(completionStatus)
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 8)
-                                .background(
-                                    Capsule()
-                                        .fill(completionStatus == "Complete" ? softGreenGradient : softRedGradient))
-                                .font(.body)
-                                .offset(y: -16)
-                                .padding(.bottom, -16)
-                                .padding(.vertical, 5)
-                                .foregroundStyle(Color("TextColor"))
-                        }
+                        
+                        Text(assignment.submissionStatus)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(
+                                Capsule()
+                                    .fill(assignment.submissionStatus == "Complete" ? buttonGradientGood : softRedGradient))
+                            .font(.body)
+                            .offset(y: -16)
+                            .padding(.bottom, -16)
+                            .padding(.vertical, 5)
+                            .foregroundStyle(Color("TextColor"))
                         
                         
                         if let formattedDate = assignment.formattedDate {
@@ -153,7 +143,7 @@ struct AssignmentDetailsView: View {
                             .frame(maxWidth: .infinity)
                             .background(
                                 Capsule()
-                                    .fill(softGreenGradient))
+                                    .fill(buttonGradientGood))
                             .font(.title3)
                             .bold()
                             .foregroundStyle(Color("TextColor"))

@@ -53,30 +53,5 @@ struct ClassView: View {
         }
         .background(Color("BackgroundColor"))
         .navigationTitle(className)
-        //        .background(LinearGradient(
-        //            colors: gradientColors,
-        //            startPoint: .topLeading,
-        //            endPoint: .bottomTrailing
-        //        ))
     }
 }
-
-//
-//#Preview {
-//    let classObj = Class(
-//        name: "Swift Dev",
-//        assignments: [
-//            Assignment(
-//                name: "some assignment",
-//                desc: "lorem ipsum dolor",
-//                dueDate: Date()),
-//            Assignment(
-//                name: "some assignment",
-//                desc: "lorem ipsum dolor",
-//                dueDate: Date())
-//        ],
-//        color: Color(red: 0, green: 0, blue: 0.5)
-//    )
-//    ClassView(classObject: classObj)
-//}
-//

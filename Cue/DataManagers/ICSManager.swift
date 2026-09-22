@@ -23,18 +23,24 @@ struct ParsedAssignment {
     let dueDate: Date?
 }
 
-
+@Observable
 @MainActor
 class ICSManager {
     
     var isLoading = false
     var errorMessage: String?
     
-    func updateCalendar(context: ModelContext) async {
+    func updateCalendar(context: ModelContext, icsURL: String) async {
+        print("updateCalendar called")
         isLoading = true
-        guard let icsString = await fetchCalendarData("https://byui.instructure.com/feeds/calendars/user_MW9zKHiVd9h9cuWWsZjt5i1zHLRYUrt3wzEo4xjC.ics") else { return }
+        print("calling fetch data")
+        guard let icsString = await fetchCalendarData(icsURL) else { return }
+        print("calling parse")
         let tempClasses = await parseCalendarData(icsString: icsString)
+        print("calling update")
+        print(tempClasses.count)
         await updateContext(context: context, tempClasses: tempClasses)
+        print("updated")
         isLoading = false
     }
     
@@ -60,6 +66,7 @@ class ICSManager {
     }
     
     
+    // Convert raw ics string into temporary structs
     private func parseCalendarData(icsString: String) async -> [ParsedClass] {
         let calParser = ICParser()
         var classes: [ParsedClass] = []
@@ -115,6 +122,7 @@ class ICSManager {
     }
     
     
+    // Converts temporary structs to objects that can be saved to swift data. Ensures that duplicates are handled and old classes are deleted.
     private func updateContext(context: ModelContext, tempClasses: [ParsedClass]) async {
         
         for parsedClass in tempClasses {
@@ -122,7 +130,12 @@ class ICSManager {
             
             if let originalName = parsedClass.originalName {
                 let classFetch = FetchDescriptor<Class>(predicate: #Predicate { $0.originalName == originalName })
-                classObj = (try? context.fetch(classFetch).first) ?? Class(id: parsedClass.id, originalName: originalName)
+                if let existing = try? context.fetch(classFetch).first {
+                    classObj = existing
+                } else {
+                    classObj = Class(id: parsedClass.id, originalName: originalName)
+                    context.insert(classObj)
+                }
             } else {
                 // No name → always create a new class
                 classObj = Class(id: parsedClass.id, originalName: parsedClass.originalName)
@@ -131,12 +144,21 @@ class ICSManager {
             
             // Clear assignments that no longer exist in ICS
             classObj.assignments.removeAll { assignment in
-                !parsedClass.assignments.contains(where: { $0.icsUID == assignment.icsUID })
+                let shouldRemove = !parsedClass.assignments.contains(where: { $0.icsUID == assignment.icsUID })
+                if shouldRemove {
+                    context.delete(assignment)
+                }
+                return shouldRemove
             }
             
             // Add/update assignments
             for parsedAssignment in parsedClass.assignments {
-                if !classObj.assignments.contains(where: { $0.icsUID == parsedAssignment.icsUID }) {
+                if let existingAssignment = classObj.assignments.first(where: { $0.icsUID == parsedAssignment.icsUID }) {
+                    existingAssignment.name = parsedAssignment.name
+                    existingAssignment.desc = parsedAssignment.desc
+                    existingAssignment.dueDate = parsedAssignment.dueDate
+                    existingAssignment.updateSubmissionStatus()
+                } else {
                     let assignment = Assignment(
                         icsUID: parsedAssignment.icsUID,
                         name: parsedAssignment.name,
@@ -152,10 +174,14 @@ class ICSManager {
         }
         removeOldClasses(context: context);
         
-        try? context.save()
+        do {
+            try context.save()
+        } catch {
+            print("Failed to save SwiftData context: \(error)")
+        }
     }
     
-    
+    // removes classes with no assignments in them; ie old classes
     private func removeOldClasses(context: ModelContext) {
         let classFetch = FetchDescriptor<Class>()
 

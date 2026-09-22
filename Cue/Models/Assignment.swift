@@ -18,6 +18,7 @@ final class Assignment {
     var blue: Double? { parentClass.blue }
     var opacity: Double? { parentClass.opacity }
     var className: String? { parentClass.userName }
+    var submissionStatus: String = "Not Complete"
     
     
     var formattedDate: String? {
@@ -49,9 +50,19 @@ final class Assignment {
         self.dueDate = dueDate
         self.parentClass = parentClass
         self.isComplete = isComplete
+        submissionStatus = "Not Complete"
+        updateSubmissionStatus()
     }
     
     func markStatus() {
         isComplete = !isComplete
+        updateSubmissionStatus()
+    }
+    
+    func updateSubmissionStatus() {
+        let now = Date()
+        submissionStatus = isComplete ?
+        ((Calendar.current.isDateInToday(dueDate ?? .distantPast) || now <= dueDate ?? .distantPast) ? "Complete" : "Submitted Late") :
+        ((!Calendar.current.isDateInToday(dueDate ?? .distantPast) || now >= dueDate ?? .distantPast) ? "Not Complete" : "Overdue")
     }
 }
