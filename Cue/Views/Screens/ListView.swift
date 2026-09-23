@@ -113,6 +113,7 @@ struct ListView: View {
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
                 
+                
                 // MARK: Upcoming Section
                 Text("Upcoming")
                     .font(.title)

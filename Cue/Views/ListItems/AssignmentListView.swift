@@ -3,11 +3,7 @@ import SwiftUI
 struct AssignmentListView: View {
     
     let assignment: Assignment
-    
-//    var completeColor: Color {
-//        assignment.isComplete ? Color(.green) : Color(.red)
-//    }
-    
+
     
     var includeClass: Bool = false
     
