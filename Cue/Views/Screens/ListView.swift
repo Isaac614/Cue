@@ -151,7 +151,6 @@ struct ListView: View {
             .scrollContentBackground(.hidden)
             .background(Color("BackgroundColor"))
             .foregroundStyle(Color("TextColor"))
-            .background(.white)
             .navigationTitle("Classes")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
