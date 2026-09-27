@@ -1,9 +1,7 @@
 import SwiftUI
 
 struct SetupView: View {
-    //    @State private var icsLink: String = ""
     @AppStorage("calendarURL") private var icsLink = ""
-    
     
     let manager: ICSManager
     

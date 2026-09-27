@@ -10,7 +10,7 @@ struct ContentView: View {
                     Image(systemName: "leaf.fill")
                 }
             
-            InputView(manager: manager)
+            SetupView(manager: manager)
                 .tabItem {
                     Image(systemName: "plus.app.fill")
                 }
