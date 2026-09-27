@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct InputView: View {
+struct SetupView: View {
     //    @State private var icsLink: String = ""
     @AppStorage("calendarURL") private var icsLink = ""
     
@@ -160,5 +160,5 @@ struct InputView: View {
 }
 
 #Preview {
-    InputView(manager: ICSManager())
+    SetupView(manager: ICSManager())
 }
