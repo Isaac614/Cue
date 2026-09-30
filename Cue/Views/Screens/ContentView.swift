@@ -15,7 +15,7 @@ struct ContentView: View {
                     Image(systemName: "plus.app.fill")
                 }
         }
-        .accentColor(Color("AccentColor")) // Tab bar tint color
+        .tint(Color("AccentColor")) // Tab bar tint color
     }
 }
 
