@@ -13,7 +13,7 @@ struct UpcomingAssignments: View {
                 }
                 
                 if a.className != b.className {
-                    return (a.className ?? "") < (b.className ?? "")
+                    return (a.className) < (b.className)
                 }
                 
                 return (a.name ?? "") < (b.name ?? "")
@@ -35,7 +35,6 @@ struct UpcomingAssignments: View {
                         AssignmentDetailsView(assignment: assignment)
                     } label: {
                         AssignmentListView(assignment: assignment, includeClass: true)
-                        //                        .padding(.horizontal)
                             .padding(.vertical, 9)
                     }
                     .listRowInsets(EdgeInsets())
@@ -47,13 +46,3 @@ struct UpcomingAssignments: View {
         }
     }
 }
-
-
-
-//Text("Upcoming")
-//    .font(.title)
-//    .bold()
-//    .padding(.horizontal)
-//    .listRowInsets(EdgeInsets())
-//    .listRowSeparator(.hidden)
-//    .listRowBackground(Color.clear)

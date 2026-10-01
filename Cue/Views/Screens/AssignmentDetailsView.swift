@@ -152,7 +152,7 @@ struct AssignmentDetailsView: View {
                 .padding(.bottom, 15)
             }
         }
-        .navigationTitle(assignment.className ?? "")
+        .navigationTitle(assignment.className)
         .background(Color("BackgroundColor"))
         .fontDesign(.rounded)
         .frame(

@@ -36,13 +36,3 @@ struct DueToday: View {
         }
     }
 }
-
-
-
-//Text("Due Today")
-//    .font(.title)
-//    .bold()
-//    .padding(.horizontal)
-//    .listRowInsets(EdgeInsets())
-//    .listRowSeparator(.hidden)
-//    .listRowBackground(Color.clear)

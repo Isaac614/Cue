@@ -46,6 +46,7 @@ struct ClassColorPicker: View {
                             Spacer()
                             Button {
                                 classObject.color = Color("TextColor")
+                                classObject.usesTextColor = true
                             } label: {
                                 Circle()
                                     .fill(Color("TextColor"))
@@ -54,6 +55,7 @@ struct ClassColorPicker: View {
                             
                             Spacer()
                             Button {
+                                classObject.usesTextColor = false
                                 classObject.color = Color(red: 1, green: 69/255, blue: 116/255)
                             } label: {
                                 Circle()
@@ -63,6 +65,7 @@ struct ClassColorPicker: View {
                             
                             Spacer()
                             Button {
+                                classObject.usesTextColor = false
                                 classObject.color = Color(red: 255/255, green: 167/255, blue: 138/255)
                             } label: {
                                 Circle()
@@ -72,6 +75,7 @@ struct ClassColorPicker: View {
                             
                             Spacer()
                             Button {
+                                classObject.usesTextColor = false
                                 classObject.color = Color(red: 255/255, green: 193/255, blue: 94/255)
                             } label: {
                                 Circle()
@@ -81,6 +85,7 @@ struct ClassColorPicker: View {
                             
                             Spacer()
                             Button {
+                                classObject.usesTextColor = false
                                 classObject.color = Color(red: 63/255, green: 178/255, blue: 80/255)
                             } label: {
                                 Circle()
@@ -93,6 +98,7 @@ struct ClassColorPicker: View {
                         HStack {
                             Spacer()
                             Button {
+                                classObject.usesTextColor = false
                                 classObject.color = Color(red: 77/255, green: 182/255, blue: 172/255)
                             } label: {
                                 Circle()
@@ -102,6 +108,7 @@ struct ClassColorPicker: View {
                             
                             Spacer()
                             Button {
+                                classObject.usesTextColor = false
                                 classObject.color = Color(red: 100/255, green: 181/255, blue: 246/255)
                             } label: {
                                 Circle()
@@ -111,6 +118,7 @@ struct ClassColorPicker: View {
                             
                             Spacer()
                             Button {
+                                classObject.usesTextColor = false
                                 classObject.color = Color(red: 179/255, green: 157/255, blue: 219/255)
                             } label: {
                                 Circle()
@@ -120,6 +128,7 @@ struct ClassColorPicker: View {
                             
                             Spacer()
                             Button {
+                                classObject.usesTextColor = false
                                 classObject.color = Color(red: 240/255, green: 98/255, blue: 146/255)
                             } label: {
                                 Circle()
@@ -128,11 +137,18 @@ struct ClassColorPicker: View {
                             }
                             
                             Spacer()
-                            ColorPicker("", selection: $classObject.color)
+                            ColorPicker("", selection: Binding(
+                                get: { classObject.color },
+                                set: {
+                                    classObject.usesTextColor = false
+                                    classObject.color = $0
+                                }
+                            ))
                                 .frame(width: 40, height: 40)
                                 .scaleEffect(1.7)
                             .labelsHidden()
-                            .onChange(of: classObject.color) { oldValue, newValue in
+                            .onChange(of: classObject.color) { _, _ in
+                                guard !classObject.usesTextColor else { return }
                                 if let rgba = classObject.color.getRGBA() {
                                     classObject.red = rgba.red
                                     classObject.green = rgba.green

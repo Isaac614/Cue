@@ -17,29 +17,42 @@ final class Assignment {
     var green: Double? { parentClass.green }
     var blue: Double? { parentClass.blue }
     var opacity: Double? { parentClass.opacity }
-    var className: String? { parentClass.userName }
+    var className: String { parentClass.userName }
     var submissionStatus: String = "Not Complete"
     
     
     var formattedDate: String? {
         guard let dueDate = dueDate else { return nil }
-        
+
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: dueDate)
         let minute = calendar.component(.minute, from: dueDate)
-        
+
         let formatter = DateFormatter()
-        formatter.dateFormat = "EEE MM/dd"  // day of week + month/day
-        
-        var result = formatter.string(from: dueDate)
-        
-        // Only append time if it's not 00:00
-        if hour != 0 || minute != 0 {
-            formatter.dateFormat = "hh:mm a"  // 12-hour format
-            result += " due by " + formatter.string(from: dueDate)
+
+        // Due today
+        if calendar.isDateInToday(dueDate) {
+            if hour != 0 || minute != 0 {
+                formatter.dateFormat = "h:mm a"
+                return formatter.string(from: dueDate).lowercased()
+            }
+
+            return "Today"
         }
-        
-        return result
+
+        // Due on another day
+        formatter.dateFormat = "EEE MM/dd"
+        let dateString = formatter.string(from: dueDate)
+
+        // Has a specific time
+        if hour != 0 || minute != 0 {
+            formatter.dateFormat = "h:mm a"
+            let timeString = formatter.string(from: dueDate).uppercased()
+            return "\(dateString)\n\(timeString)"
+        }
+
+        // No specific time
+        return dateString
     }
 
     

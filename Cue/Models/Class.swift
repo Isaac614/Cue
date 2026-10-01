@@ -52,8 +52,13 @@ final class Class {
     var green: Double? = nil
     var opacity: Double? = nil
     
+    var usesTextColor: Bool = true
+    
     var color: Color {
         get {
+            if usesTextColor {
+                return Color("TextColor")
+            }
             if let red = red, let green = green, let blue = blue, let opacity = opacity {
                 return Color(red: red, green: green, blue: blue, opacity: opacity)
             } else {

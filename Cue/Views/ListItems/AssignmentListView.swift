@@ -5,6 +5,11 @@ struct AssignmentListView: View {
     let assignment: Assignment
     var includeClass: Bool = false
     
+    var tintColor: Color {
+        assignment.parentClass.color
+    }
+
+    
     var body: some View {
         HStack(spacing: 0) {
             Button(
@@ -21,31 +26,36 @@ struct AssignmentListView: View {
                 .frame(width: 15)
             HStack {
                 VStack(alignment: .leading) {
-                    if !includeClass {
-                        Text(assignment.name ?? "there is no name for this assignment")
-                            .font(.headline)
-                    } else {
-                        Text("\(assignment.className ?? "Unnamed Class") - \(assignment.name ?? "there is no name for this assignment")")
-                            .font(.headline)
-                        
-                    }
+                    
+                    Text(assignment.className)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 2)
+                        .background(Color(tintColor).opacity(0.16), in: Capsule())
+                        .foregroundStyle(tintColor)
+                    
+                    Text(assignment.name ?? "name not found")
+                        .lineLimit(1)
+                        .foregroundStyle(Color("TextColor"))
+                }
+                .font(.subheadline)
+                .foregroundStyle(Color("TextColor"))
+                Spacer()
+                HStack {
                     if let formattedDate = assignment.formattedDate {
                         Text(formattedDate)
-                            .foregroundColor(Color("SubheadlineColor"))
                             .font(.subheadline)
+                            .foregroundColor(Color("SubheadlineColor"))
                     }
+                    Image(systemName: "chevron.right")
+                        .font(.title2)
+                        .bold()
                 }
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .font(.title2)
-                    .bold()
             }
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
         .glassEffect(.regular.tint(Color("CapsuleGlassColor")))
         .contentShape(Capsule())
-        .lineLimit(1)
         .foregroundStyle(Color("TextColor"))
     }
 }
