@@ -5,7 +5,7 @@ struct ContentView: View {
     let manager = ICSManager()
     var body: some View {
         TabView {
-            ListView(manager: manager)
+            DashboardView(manager: manager)
                 .tabItem {
                     Image(systemName: "leaf.fill")
                 }

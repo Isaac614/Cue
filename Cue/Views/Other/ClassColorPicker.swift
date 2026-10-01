@@ -29,13 +29,12 @@ struct ClassColorPicker: View {
                             .padding(.leading, 10)
                         
                         TextField("Class Name", text: $classObject.userName)
-                        
                             .padding(.horizontal, 20)
                             .frame(height: 55)
                             .frame(maxWidth: .infinity)
                             .font(.body)
                             .foregroundStyle(classObject.color)
-                            .glassEffect(.regular.interactive())
+                            .glassEffect(.regular)
                         
                     }
                     .padding(.horizontal, 20)
@@ -173,7 +172,6 @@ struct ClassColorPicker: View {
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundStyle(Color("TextColor"))
                             .frame(width: 44, height: 44)
-//                            .background(Color.blue)
                             .clipShape(Circle())
                             .glassEffect(.regular.interactive())
                     }

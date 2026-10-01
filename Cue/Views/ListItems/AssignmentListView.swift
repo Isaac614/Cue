@@ -3,10 +3,7 @@ import SwiftUI
 struct AssignmentListView: View {
     
     let assignment: Assignment
-
-    
     var includeClass: Bool = false
-    
     
     var body: some View {
         HStack(spacing: 0) {
