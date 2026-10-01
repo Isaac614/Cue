@@ -7,9 +7,10 @@ struct DashboardView: View {
     @AppStorage("calendarURL") private var icsLink = ""
     @State private var swipedClass: Class? = nil
     
+    
     var body: some View {
         NavigationStack {
-            List {
+            ScrollView {
                 ClassCarousal(manager: manager, swipedClass: $swipedClass)
                 DueToday()
                 UpcomingAssignments()

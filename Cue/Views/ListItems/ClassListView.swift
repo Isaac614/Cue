@@ -2,23 +2,41 @@ import SwiftUI
 
 struct ClassListView: View {
     let classObject: Class
+    var uncompletedDueToday: [Assignment] {
+        classObject.todaysAssignments.filter {
+            !($0.isComplete)
+        }
+    }
     
+    var numberAssignments: Int {
+        uncompletedDueToday.count
+    }
     
     var body: some View {
-        HStack {
-            Text(classObject.userName)
-            Spacer()
-            Image(systemName: "chevron.right")
+        ZStack {
+            RoundedRectangle(cornerRadius: 15)
+                .fill(classObject.usesTextColor ? .accent : classObject.color)
+                .offset(y: -3)
+            VStack(alignment: .center) {
+                Text(classObject.userName)
+                    .font(.title2)
+                    .bold()
+                    .foregroundStyle(
+                        classObject.color
+                    )
+                Text(numberAssignments != 0 ?
+                     "\(numberAssignments) due today" :
+                     "nothing due"
+                )
+                .font(.caption)
+                .foregroundStyle(Color("SubheadlineColor"))
+            }
+            .padding(.horizontal, 30)
+            .padding(.vertical, 20)
+            .frame(maxWidth: .infinity)
+            .background(Color("CapsuleColor"))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
         }
-        .font(.title2)
-        .bold()
-        .padding(.horizontal, 30)
-        .padding(.vertical, 30)
-        .frame(maxWidth: .infinity)
-        .glassEffect(.regular.tint(Color("CapsuleGlassColor")))
-        .contentShape(Capsule())
-        .foregroundStyle(
-            classObject.color
-        )
     }
+    
 }

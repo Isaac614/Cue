@@ -11,26 +11,27 @@ struct DueToday: View {
     
     
     var body: some View {
-        Section("Due Today") {
-            if dueAssignments.isEmpty {
-                Text("You're all caught up!")
-                    .font(.body)
-                    .foregroundColor(Color.gray)
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-            } else {
-                ForEach(dueAssignments) { assignment in
-                    NavigationLink {
-                        AssignmentDetailsView(assignment: assignment)
-                    } label: {
-                        AssignmentListView(assignment: assignment, includeClass: true)
-                            .padding(.vertical, 9)
+        LazyVStack(spacing: 18) {
+            Section("Due Today") {
+                if dueAssignments.isEmpty {
+                    Text("You're all caught up!")
+                        .font(.body)
+                        .foregroundColor(Color.gray)
+                        .listRowInsets(EdgeInsets())
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.clear)
+                } else {
+                    ForEach(dueAssignments) { assignment in
+                        NavigationLink {
+                            AssignmentDetailsView(assignment: assignment)
+                        } label: {
+                            AssignmentListView(assignment: assignment, includeClass: true)
+                        }
+                        .listRowInsets(EdgeInsets())
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.clear)
+                        .navigationLinkIndicatorVisibility(.hidden)
                     }
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-                    .navigationLinkIndicatorVisibility(.hidden)
                 }
             }
         }
