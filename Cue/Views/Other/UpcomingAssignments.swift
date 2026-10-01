@@ -21,26 +21,28 @@ struct UpcomingAssignments: View {
     }
     
     var body: some View {
-        if upcomingAssignments.isEmpty {
-            Text("You're all caught up!")
-                .font(.body)
-                .foregroundColor(Color.gray)
-                .listRowInsets(EdgeInsets())
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-        } else {
-            ForEach(upcomingAssignments) { assignment in
-                NavigationLink {
-                    AssignmentDetailsView(assignment: assignment)
-                } label: {
-                    AssignmentListView(assignment: assignment, includeClass: true)
-//                        .padding(.horizontal)
-                        .padding(.vertical, 9)
+        Section("Upcoming") {
+            if upcomingAssignments.isEmpty {
+                Text("You're all caught up!")
+                    .font(.body)
+                    .foregroundColor(Color.gray)
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+            } else {
+                ForEach(upcomingAssignments) { assignment in
+                    NavigationLink {
+                        AssignmentDetailsView(assignment: assignment)
+                    } label: {
+                        AssignmentListView(assignment: assignment, includeClass: true)
+                        //                        .padding(.horizontal)
+                            .padding(.vertical, 9)
+                    }
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                    .navigationLinkIndicatorVisibility(.hidden)
                 }
-                .listRowInsets(EdgeInsets())
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                .navigationLinkIndicatorVisibility(.hidden)
             }
         }
     }
