@@ -5,13 +5,13 @@ struct DashboardView: View {
     let manager: ICSManager
     @Environment(\.modelContext) var modelContext
     @AppStorage("calendarURL") private var icsLink = ""
-    @State private var swipedClass: Class? = nil
+    @State private var classToEdit: Class? = nil
     
     
     var body: some View {
         NavigationStack {
             ScrollView {
-                ClassCarousal(manager: manager, swipedClass: $swipedClass)
+                ClassCarousal(manager: manager, classToEdit: $classToEdit)
                 DueToday()
                 UpcomingAssignments()
             }
@@ -29,7 +29,7 @@ struct DashboardView: View {
                     }
                 }
             }
-            .sheet(item: $swipedClass) { classToEdit in
+            .sheet(item: $classToEdit) { classToEdit in
                 ClassColorPicker(classObject: classToEdit)
             }
         }
