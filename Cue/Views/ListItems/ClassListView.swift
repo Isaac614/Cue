@@ -3,7 +3,7 @@ import SwiftUI
 struct ClassListView: View {
     let classObject: Class
     let onEdit: () -> Void
-    let onDelete(): -> Void
+    let onDelete: () -> Void
     
     var uncompletedDueToday: [Assignment] {
         classObject.todaysAssignments.filter {
