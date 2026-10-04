@@ -12,7 +12,9 @@ struct DashboardView: View {
         NavigationStack {
             ScrollView {
                 ClassCarousal(manager: manager, classToEdit: $classToEdit)
+                    .padding(.bottom, 25)
                 DueToday()
+                    .padding(.bottom, 30)
                 UpcomingAssignments()
             }
             .padding(.horizontal)

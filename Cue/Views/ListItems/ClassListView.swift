@@ -59,6 +59,7 @@ struct ClassListView: View {
                 }
             }
         }
+        .frame(minWidth: 150)
         
     }
     

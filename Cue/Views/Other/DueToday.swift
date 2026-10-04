@@ -11,29 +11,33 @@ struct DueToday: View {
     
     
     var body: some View {
-        LazyVStack(spacing: 18) {
-            Section("Due Today") {
-                if dueAssignments.isEmpty {
-                    Text("You're all caught up!")
-                        .font(.body)
-                        .foregroundColor(Color.gray)
-                        .listRowInsets(EdgeInsets())
-                        .listRowSeparator(.hidden)
-                        .listRowBackground(Color.clear)
-                } else {
-                    ForEach(dueAssignments) { assignment in
-                        NavigationLink {
-                            AssignmentDetailsView(assignment: assignment)
-                        } label: {
-                            AssignmentListView(assignment: assignment, includeClass: true)
-                        }
-                        .listRowInsets(EdgeInsets())
-                        .listRowSeparator(.hidden)
-                        .listRowBackground(Color.clear)
-                        .navigationLinkIndicatorVisibility(.hidden)
+        LazyVStack(alignment: .leading, spacing: 18) {
+            Text("Due Today")
+                .font(.title)
+                .foregroundStyle(Color("TextColor"))
+                .fontWeight(.semibold)
+                .padding(.leading)
+            if dueAssignments.isEmpty {
+                Text("You're all caught up!")
+                    .font(.body)
+                    .foregroundColor(Color.gray)
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+            } else {
+                ForEach(dueAssignments) { assignment in
+                    NavigationLink {
+                        AssignmentDetailsView(assignment: assignment)
+                    } label: {
+                        AssignmentListView(assignment: assignment, includeClass: true)
                     }
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                    .navigationLinkIndicatorVisibility(.hidden)
                 }
             }
+            
         }
     }
 }

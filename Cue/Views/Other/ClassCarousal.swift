@@ -21,6 +21,7 @@ struct ClassCarousal: View {
                         .font(.title)
                         .foregroundStyle(Color("TextColor"))
                         .fontWeight(.semibold)
+                        .padding(.leading)
                     Image(systemName: isExpanded ? "chevron.down" : "chevron.right")
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)

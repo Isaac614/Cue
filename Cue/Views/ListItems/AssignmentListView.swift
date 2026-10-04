@@ -8,9 +8,10 @@ struct AssignmentListView: View {
     var tintColor: Color {
         assignment.parentClass.color
     }
-
+    
     
     var body: some View {
+        
         HStack(spacing: 0) {
             Button(
                 action: {
@@ -32,6 +33,8 @@ struct AssignmentListView: View {
                         .padding(.vertical, 2)
                         .background(Color(tintColor).opacity(0.16), in: Capsule())
                         .foregroundStyle(tintColor)
+                        .font(.caption)
+                        .fontWeight(.semibold)
                     
                     Text(assignment.name ?? "name not found")
                         .lineLimit(1)
@@ -47,16 +50,22 @@ struct AssignmentListView: View {
                             .foregroundColor(Color("SubheadlineColor"))
                     }
                     Image(systemName: "chevron.right")
-                        .font(.title2)
+                        .font(.subheadline)
                         .bold()
                 }
             }
         }
-        .padding()
+        .padding(15)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .glassEffect(.regular.tint(Color("CapsuleGlassColor")))
+        .background(Color("CapsuleColor"), in:Capsule())
         .contentShape(Capsule())
         .foregroundStyle(Color("TextColor"))
+        .overlay(
+            Capsule()
+                .stroke(Color("CapsuleBorderColor"), lineWidth: 1)
+        )
+        .padding(.horizontal, 1)
+        
     }
 }
 

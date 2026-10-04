@@ -21,29 +21,33 @@ struct UpcomingAssignments: View {
     }
     
     var body: some View {
-        LazyVStack(spacing: 18) {
-            Section("Upcoming") {
-                if upcomingAssignments.isEmpty {
-                    Text("You're all caught up!")
-                        .font(.body)
-                        .foregroundColor(Color.gray)
-                        .listRowInsets(EdgeInsets())
-                        .listRowSeparator(.hidden)
-                        .listRowBackground(Color.clear)
-                } else {
-                    ForEach(upcomingAssignments) { assignment in
-                        NavigationLink {
-                            AssignmentDetailsView(assignment: assignment)
-                        } label: {
-                            AssignmentListView(assignment: assignment, includeClass: true)
-                        }
-                        .listRowInsets(EdgeInsets())
-                        .listRowSeparator(.hidden)
-                        .listRowBackground(Color.clear)
-                        .navigationLinkIndicatorVisibility(.hidden)
+        LazyVStack(alignment: .leading, spacing: 18) {
+            Text("Upcoming")
+                .font(.title)
+                .foregroundStyle(Color("TextColor"))
+                .fontWeight(.semibold)
+                .padding(.leading)
+            if upcomingAssignments.isEmpty {
+                Text("You're all caught up!")
+                    .font(.body)
+                    .foregroundColor(Color.gray)
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+            } else {
+                ForEach(upcomingAssignments) { assignment in
+                    NavigationLink {
+                        AssignmentDetailsView(assignment: assignment)
+                    } label: {
+                        AssignmentListView(assignment: assignment, includeClass: true)
                     }
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                    .navigationLinkIndicatorVisibility(.hidden)
                 }
             }
+            
         }
     }
 }
