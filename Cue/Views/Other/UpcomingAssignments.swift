@@ -3,6 +3,15 @@ import SwiftData
 
 struct UpcomingAssignments: View {
     
+    let calendar = Calendar.current
+    let today = Date()
+    
+    var nextSevenDays: [Date] {
+        (1...7).compactMap { offset in
+            calendar.date(byAdding: .day, value: offset, to: today)
+        }
+    }
+    
     @Query(sort: \Class.userName, order: .forward) var classes: [Class]
     var upcomingAssignments: [Assignment] {
         classes
@@ -22,32 +31,36 @@ struct UpcomingAssignments: View {
     
     var body: some View {
         LazyVStack(alignment: .leading, spacing: 18) {
-            Text("Upcoming")
-                .font(.title)
-                .foregroundStyle(Color("TextColor"))
-                .fontWeight(.semibold)
-                .padding(.leading)
-            if upcomingAssignments.isEmpty {
-                Text("You're all caught up!")
-                    .font(.body)
-                    .foregroundColor(Color.gray)
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-            } else {
-                ForEach(upcomingAssignments) { assignment in
-                    NavigationLink {
-                        AssignmentDetailsView(assignment: assignment)
-                    } label: {
-                        AssignmentListView(assignment: assignment, includeClass: true)
+            
+            ForEach(nextSevenDays, id: \.self) { date in
+                let assignmentsForDay = upcomingAssignments.filter { assignment in
+                    guard let dueDate = assignment.dueDate else { return false }
+                    return calendar.isDate(dueDate, inSameDayAs: date)
+                }
+                
+                Text(date.formatted(.dateTime.weekday(.wide)))
+                    .font(.title)
+                    .foregroundStyle(Color("TextColor"))
+                    .fontWeight(.semibold)
+                    .padding(.leading)
+                    .padding(.top)
+                
+                if assignmentsForDay.count > 0 {
+                    ForEach(assignmentsForDay) { assignment in
+                        NavigationLink {
+                            AssignmentDetailsView(assignment: assignment)
+                        } label: {
+                            AssignmentListView(assignment: assignment, includeClass: true)
+                        }
+                        .navigationLinkIndicatorVisibility(.hidden)
                     }
-                    .listRowInsets(EdgeInsets())
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-                    .navigationLinkIndicatorVisibility(.hidden)
+                } else {
+                    Text("Nothing Due!")
+                        .font(.subheadline)
+                        .foregroundStyle(Color("SubheadlineColor"))
+                        .padding(.leading)
                 }
             }
-            
         }
     }
 }
