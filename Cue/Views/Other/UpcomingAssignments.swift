@@ -30,35 +30,40 @@ struct UpcomingAssignments: View {
     }
     
     var body: some View {
-        LazyVStack(alignment: .leading, spacing: 18) {
+        LazyVStack(alignment: .leading, spacing: 38) {
             
             ForEach(nextSevenDays, id: \.self) { date in
                 let assignmentsForDay = upcomingAssignments.filter { assignment in
                     guard let dueDate = assignment.dueDate else { return false }
                     return calendar.isDate(dueDate, inSameDayAs: date)
                 }
-                
-                Text(date.formatted(.dateTime.weekday(.wide)))
-                    .font(.title)
-                    .foregroundStyle(Color("TextColor"))
-                    .fontWeight(.semibold)
-                    .padding(.leading)
-                    .padding(.top)
-                
-                if assignmentsForDay.count > 0 {
-                    ForEach(assignmentsForDay) { assignment in
-                        NavigationLink {
-                            AssignmentDetailsView(assignment: assignment)
-                        } label: {
-                            AssignmentListView(assignment: assignment, includeClass: true)
-                        }
-                        .navigationLinkIndicatorVisibility(.hidden)
-                    }
-                } else {
-                    Text("Nothing Due!")
-                        .font(.subheadline)
-                        .foregroundStyle(Color("SubheadlineColor"))
+                VStack(alignment: .leading) {
+                    Text(calendar.isDateInTomorrow(date)
+                         ? "Tomorrow"
+                         : date.formatted(.dateTime.weekday(.wide)))
+                        .font(.title)
+                        .foregroundStyle(Color("TextColor"))
+                        .fontWeight(.semibold)
                         .padding(.leading)
+                    
+                    VStack(alignment: .leading, spacing: 18) {
+                        if assignmentsForDay.count > 0 {
+                            ForEach(assignmentsForDay) { assignment in
+                                NavigationLink {
+                                    AssignmentDetailsView(assignment: assignment)
+                                } label: {
+                                    AssignmentListView(assignment: assignment, includeClass: true)
+                                }
+                                .navigationLinkIndicatorVisibility(.hidden)
+                            }
+                        } else {
+                            Text("Nothing Due!")
+                                .font(.subheadline)
+                                .foregroundStyle(Color("SubheadlineColor"))
+                                .padding(.leading)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                        }
+                    }
                 }
             }
         }

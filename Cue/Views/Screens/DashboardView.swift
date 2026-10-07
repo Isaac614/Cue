@@ -13,12 +13,14 @@ struct DashboardView: View {
             ScrollView {
                 ClassCarousal(manager: manager, classToEdit: $classToEdit)
                     .padding(.bottom, 25)
+                    .padding(.horizontal)
                 DueToday()
                     .padding(.bottom, 30)
+                    .padding(.horizontal)
                 UpcomingAssignments()
+                    .padding(.horizontal)   
             }
-            .padding(.horizontal)
-            .listStyle(.plain)
+//            .padding(.horizontal)
             .scrollContentBackground(.hidden)
             .background(Color("BackgroundColor"))
             .foregroundStyle(Color("TextColor"))
